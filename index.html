@@ -81,11 +81,43 @@
   .brand .mark svg { width: 22px; height: 22px; }
   .brand .name { font-family: var(--font-display); font-size: 21px; font-weight: 600; letter-spacing: -0.01em; white-space: nowrap; line-height: 1.05; }
   .brand .name small { display: block; font-family: var(--font-mono); font-size: 10px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-soft); margin-top: 1px; }
-  .nav-links { display: flex; align-items: center; gap: 30px; }
+  /* Desktop nav links — hidden on mobile, shown on desktop */
+  .nav-links { display: none; align-items: center; gap: 30px; }
   .nav-links a { font-size: 15.5px; font-weight: 500; color: var(--ink-soft); transition: color .15s; white-space: nowrap; }
   .nav-links a:hover { color: var(--ink); }
-  .nav-cta { display: flex; align-items: center; gap: 18px; }
-  @media (max-width: 1040px) { .nav-links { display: none; } }
+  @media (min-width: 1041px) { .nav-links { display: flex; } }
+
+  /* Desktop CTA — hidden on mobile */
+  .nav-cta { display: none; align-items: center; gap: 18px; }
+  @media (min-width: 1041px) { .nav-cta { display: flex; } }
+
+  /* Hamburger button — visible on mobile, hidden on desktop */
+  .nav-hamburger {
+    display: flex; align-items: center; justify-content: center;
+    width: 42px; height: 42px; border-radius: 10px;
+    background: none; border: 1.5px solid var(--line);
+    cursor: pointer; color: var(--ink); flex-direction: column; gap: 5px;
+    transition: border-color .18s ease;
+  }
+  .nav-hamburger:hover { border-color: var(--ink); }
+  .nav-hamburger span { display: block; width: 18px; height: 2px; background: currentColor; border-radius: 2px; transition: transform .2s ease, opacity .2s ease; }
+  .nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-hamburger.open span:nth-child(2) { opacity: 0; }
+  .nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  @media (min-width: 1041px) { .nav-hamburger { display: none; } }
+
+  /* Mobile dropdown menu */
+  .mobile-menu {
+    display: none; flex-direction: column;
+    background: var(--bg); border-top: 1px solid var(--line);
+    padding: 20px 32px 28px;
+  }
+  .mobile-menu.open { display: flex; }
+  .mobile-menu a { font-size: 17px; font-weight: 500; color: var(--ink-soft); padding: 12px 0; border-bottom: 1px solid var(--line); transition: color .15s; }
+  .mobile-menu a:last-child { border-bottom: none; }
+  .mobile-menu a:hover { color: var(--ink); }
+  .mobile-menu .btn { margin-top: 18px; justify-content: center; }
+  @media (min-width: 1041px) { .mobile-menu { display: none !important; } }
 
   /* Hero */
   .hero { padding: 78px 0 90px; }
@@ -302,8 +334,34 @@
       <div class="nav-cta">
         <a href="https://calendar.app.google/rk8uauptoDyFfJZV7" target="_blank" rel="noopener" class="btn btn-primary">Book a build call</a>
       </div>
+      <button class="nav-hamburger" aria-label="Open menu" onclick="toggleMenu()">
+        <span></span><span></span><span></span>
+      </button>
     </div>
   </header>
+
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="#founder" onclick="closeMenu()">Meet Mona</a>
+    <a href="#services" onclick="closeMenu()">What We Build</a>
+    <a href="#approach" onclick="closeMenu()">Approach</a>
+    <a href="#capabilities" onclick="closeMenu()">Capabilities</a>
+    <a href="#connect" onclick="closeMenu()">Connect</a>
+    <a href="https://calendar.app.google/rk8uauptoDyFfJZV7" target="_blank" rel="noopener" class="btn btn-primary">Book a build call</a>
+  </div>
+
+  <script>
+    function toggleMenu() {
+      const menu = document.getElementById('mobile-menu');
+      const btn = document.querySelector('.nav-hamburger');
+      menu.classList.toggle('open');
+      btn.classList.toggle('open');
+    }
+    function closeMenu() {
+      document.getElementById('mobile-menu').classList.remove('open');
+      document.querySelector('.nav-hamburger').classList.remove('open');
+    }
+  </script>
 
   <!-- HERO -->
   <section class="hero" id="top">
