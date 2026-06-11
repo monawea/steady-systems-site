@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Website Builds | Steady Systems LLC</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #FAF4EA;
+    --bg-2: #F2E7D6;
+    --card: #FFFCF6;
+    --ink: #2A2420;
+    --ink-soft: #6E6256;
+    --line: #E6D9C6;
+    --accent: #0097B2;
+    --accent-ink: #06768C;
+    --font-display: 'Newsreader', Georgia, serif;
+    --font-body: 'Hanken Grotesk', system-ui, sans-serif;
+    --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+    --maxw: 1180px;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 18px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+  h1, h2, h3 { font-family: var(--font-display); font-weight: 500; margin: 0; line-height: 1.08; letter-spacing: -0.01em; }
+  p { margin: 0; }
+  a { color: inherit; text-decoration: none; }
+  img { display: block; max-width: 100%; }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 32px; }
+  .eyebrow { font-family: var(--font-mono); font-size: 12.5px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent-ink); }
+
+  /* Buttons */
+  .btn { display: inline-flex; align-items: center; gap: 10px; font-family: var(--font-body); font-weight: 600; font-size: 16px; padding: 15px 26px; border-radius: 999px; cursor: pointer; border: 1.5px solid transparent; transition: transform .18s ease, box-shadow .18s ease, background .18s ease, color .18s ease, border-color .18s ease; }
+  .btn-primary { background: var(--accent); color: #fff; box-shadow: 0 10px 24px -12px var(--accent); }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 16px 30px -12px var(--accent); }
+  .btn-ghost { background: transparent; color: var(--ink); border-color: var(--line); }
+  .btn-ghost:hover { border-color: var(--ink); transform: translateY(-2px); }
+  .btn svg { width: 16px; height: 16px; }
+
+  /* Nav */
+  header.nav { position: sticky; top: 0; z-index: 40; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+  .nav-inner { display: flex; align-items: center; justify-content: space-between; height: 76px; gap: 28px; }
+  .brand { display: flex; align-items: center; gap: 13px; }
+  .brand .mark { width: 40px; height: 40px; border-radius: 11px; background: var(--accent); color: #fff; display: grid; place-items: center; flex: none; box-shadow: 0 8px 20px -10px var(--accent); }
+  .brand .mark svg { width: 22px; height: 22px; }
+  .brand .name { font-family: var(--font-display); font-size: 21px; font-weight: 600; letter-spacing: -0.01em; white-space: nowrap; line-height: 1.05; }
+  .brand .name small { display: block; font-family: var(--font-mono); font-size: 10px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-soft); margin-top: 1px; }
+  .nav-links { display: none; align-items: center; gap: 30px; }
+  .nav-links a { font-size: 15.5px; font-weight: 500; color: var(--ink-soft); transition: color .15s; white-space: nowrap; }
+  .nav-links a:hover, .nav-links a.active { color: var(--ink); }
+  @media (min-width: 1041px) { .nav-links { display: flex; } }
+  .nav-cta { display: none; align-items: center; }
+  @media (min-width: 1041px) { .nav-cta { display: flex; } }
+  .nav-hamburger { display: flex; align-items: center; justify-content: center; width: 42px; height: 42px; border-radius: 10px; background: none; border: 1.5px solid var(--line); cursor: pointer; color: var(--ink); flex-direction: column; gap: 5px; transition: border-color .18s ease; }
+  .nav-hamburger:hover { border-color: var(--ink); }
+  .nav-hamburger span { display: block; width: 18px; height: 2px; background: currentColor; border-radius: 2px; transition: transform .2s ease, opacity .2s ease; }
+  .nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-hamburger.open span:nth-child(2) { opacity: 0; }
+  .nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  @media (min-width: 1041px) { .nav-hamburger { display: none; } }
+  .mobile-menu { display: none; flex-direction: column; background: var(--bg); border-top: 1px solid var(--line); padding: 20px 32px 28px; }
+  .mobile-menu.open { display: flex; }
+  .mobile-menu a { font-size: 17px; font-weight: 500; color: var(--ink-soft); padding: 12px 0; border-bottom: 1px solid var(--line); transition: color .15s; }
+  .mobile-menu a:last-child { border-bottom: none; }
+  .mobile-menu a:hover { color: var(--ink); }
+  .mobile-menu .btn { margin-top: 18px; justify-content: center; }
+  @media (min-width: 1041px) { .mobile-menu { display: none !important; } }
+
+  /* Hero */
+  .hero { padding: 80px 0 90px; }
+  .hero-inner { max-width: 760px; }
+  .hero h1 { font-size: clamp(38px, 5vw, 62px); margin-top: 18px; }
+  .hero h1 em { font-style: italic; color: var(--accent-ink); }
+  .hero .lead { font-size: 20px; color: var(--ink-soft); margin-top: 24px; max-width: 52ch; }
+  .hero-actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 36px; }
+
+  /* Price callout */
+  .price-band { background: var(--ink); color: #F6EEE1; padding: 60px 0; }
+  .price-inner { display: flex; align-items: center; justify-content: space-between; gap: 40px; flex-wrap: wrap; }
+  .price-left .label { font-family: var(--font-mono); font-size: 12px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); }
+  .price-left h2 { font-size: clamp(28px, 3.6vw, 42px); color: #F6EEE1; margin-top: 12px; max-width: 22ch; }
+  .price-tag { text-align: center; flex: none; }
+  .price-tag .amount { font-family: var(--font-display); font-size: clamp(52px, 7vw, 80px); font-weight: 500; color: #F6EEE1; line-height: 1; }
+  .price-tag .sub { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: #9A8E7C; margin-top: 8px; }
+  @media (max-width: 680px) { .price-inner { flex-direction: column; text-align: center; } .price-left h2 { max-width: 100%; } }
+
+  /* What's included */
+  .included { padding: 100px 0; }
+  .included .sec-head { max-width: 600px; margin-bottom: 56px; }
+  .included .sec-head h2 { font-size: clamp(28px, 3.6vw, 42px); margin-top: 16px; }
+  .included .sec-head p { color: var(--ink-soft); font-size: 19px; margin-top: 16px; }
+  .included-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+  @media (max-width: 760px) { .included-grid { grid-template-columns: 1fr; } }
+  .inc-card { background: var(--card); border: 1px solid var(--line); border-radius: 20px; padding: 30px 28px 32px; position: relative; overflow: hidden; transition: transform .2s ease, box-shadow .2s ease; }
+  .inc-card:hover { transform: translateY(-4px); box-shadow: 0 20px 40px -24px rgba(42,36,32,.35); }
+  .inc-card::after { content: ""; position: absolute; left: 0; top: 0; height: 4px; width: 100%; background: var(--accent); }
+  .inc-card .ic { width: 48px; height: 48px; border-radius: 13px; display: grid; place-items: center; background: color-mix(in srgb, var(--accent) 14%, transparent); color: var(--accent-ink); margin-bottom: 20px; }
+  .inc-card .ic svg { width: 23px; height: 23px; stroke-width: 1.8; }
+  .inc-card h3 { font-size: 22px; margin-bottom: 10px; }
+  .inc-card p { color: var(--ink-soft); font-size: 16px; }
+
+  /* How it works */
+  .how { background: var(--bg-2); padding: 100px 0; }
+  .how .sec-head { max-width: 580px; margin-bottom: 56px; }
+  .how .sec-head h2 { font-size: clamp(28px, 3.6vw, 42px); margin-top: 16px; }
+  .how .sec-head p { color: var(--ink-soft); font-size: 19px; margin-top: 16px; }
+  .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+  @media (max-width: 860px) { .steps { grid-template-columns: 1fr 1fr; gap: 30px 24px; } }
+  @media (max-width: 480px) { .steps { grid-template-columns: 1fr; } }
+  .step .n { font-family: var(--font-mono); font-size: 15px; font-weight: 500; background: var(--accent); width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center; margin-bottom: 18px; color: #fff; }
+  .step h3 { font-size: 20px; margin-bottom: 8px; }
+  .step p { color: var(--ink-soft); font-size: 15.5px; }
+
+  /* Hosting note */
+  .hosting-note { padding: 72px 0; border-top: 1px solid var(--line); }
+  .hosting-inner { display: flex; align-items: flex-start; gap: 28px; max-width: 760px; }
+  .hosting-icon { width: 52px; height: 52px; border-radius: 14px; background: color-mix(in srgb, var(--accent) 14%, transparent); color: var(--accent-ink); display: grid; place-items: center; flex: none; }
+  .hosting-icon svg { width: 24px; height: 24px; stroke-width: 1.8; }
+  .hosting-text h3 { font-size: 22px; margin-bottom: 10px; }
+  .hosting-text p { color: var(--ink-soft); font-size: 16.5px; }
+  .hosting-text a { color: var(--accent-ink); text-decoration: underline; }
+  .hosting-text a:hover { color: var(--ink); }
+  @media (max-width: 560px) { .hosting-inner { flex-direction: column; } }
+
+  /* CTA band */
+  .cta { background: var(--ink); color: #F6EEE1; padding: 100px 0; text-align: center; }
+  .cta .wrap { max-width: 680px; }
+  .cta h2 { font-size: clamp(30px, 4.2vw, 50px); }
+  .cta h2 em { font-style: italic; color: var(--accent); }
+  .cta p { color: #C9BCA8; font-size: 19px; margin: 20px auto 36px; max-width: 48ch; }
+
+  /* Footer */
+  footer { padding: 64px 0 48px; border-top: 1px solid var(--line); }
+  .foot-grid { display: flex; justify-content: space-between; align-items: flex-start; gap: 40px; flex-wrap: wrap; }
+  .foot-brand { max-width: 340px; }
+  .foot-brand p { color: var(--ink-soft); font-size: 15px; margin-top: 16px; }
+  .foot-cols { display: flex; gap: 64px; flex-wrap: wrap; }
+  .foot-col h4 { font-family: var(--font-mono); font-size: 11.5px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 16px; }
+  .foot-col a { display: block; font-size: 15.5px; color: var(--ink); margin-bottom: 11px; transition: color .15s; }
+  .foot-col a:hover { color: var(--accent-ink); }
+  .foot-bottom { display: flex; justify-content: space-between; align-items: center; margin-top: 54px; padding-top: 26px; border-top: 1px solid var(--line); color: var(--ink-soft); font-size: 14px; flex-wrap: wrap; gap: 14px; }
+  .socials { display: flex; gap: 12px; }
+  .socials a { width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--line); display: grid; place-items: center; transition: all .15s; }
+  .socials a:hover { background: var(--accent); border-color: var(--accent); color: #fff; transform: translateY(-2px); }
+  .socials svg { width: 17px; height: 17px; }
+</style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <header class="nav">
+    <div class="wrap nav-inner">
+      <a class="brand" href="index.html">
+        <span class="mark">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="6" cy="6" r="2.4"/><circle cx="18" cy="6" r="2.4"/><circle cx="12" cy="18" r="2.4"/><path d="M6 8.4v3a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-3M12 13.4v2.2" stroke-linecap="round"/></svg>
+        </span>
+        <span class="name">Steady Systems LLC<small>AI &amp; Software Studio</small></span>
+      </a>
+      <nav class="nav-links">
+        <a href="index.html#founder">Meet Mona</a>
+        <a href="index.html#services">What We Build</a>
+        <a href="website-builds.html" class="active">Website Builds</a>
+        <a href="index.html#approach">Approach</a>
+        <a href="index.html#connect">Connect</a>
+      </nav>
+      <div class="nav-cta">
+        <a href="https://calendar.app.google/rk8uauptoDyFfJZV7" target="_blank" rel="noopener" class="btn btn-primary">Book a build call</a>
+      </div>
+      <button class="nav-hamburger" aria-label="Open menu" onclick="toggleMenu()">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="index.html#founder" onclick="closeMenu()">Meet Mona</a>
+    <a href="index.html#services" onclick="closeMenu()">What We Build</a>
+    <a href="website-builds.html" onclick="closeMenu()">Website Builds</a>
+    <a href="index.html#approach" onclick="closeMenu()">Approach</a>
+    <a href="index.html#connect" onclick="closeMenu()">Connect</a>
+    <a href="https://calendar.app.google/rk8uauptoDyFfJZV7" target="_blank" rel="noopener" class="btn btn-primary">Book a build call</a>
+  </div>
+
+  <script>
+    function toggleMenu() {
+      const menu = document.getElementById('mobile-menu');
+      const btn = document.querySelector('.nav-hamburger');
+      menu.classList.toggle('open');
+      btn.classList.toggle('open');
+    }
+    function closeMenu() {
+      document.getElementById('mobile-menu').classList.remove('open');
+      document.querySelector('.nav-hamburger').classList.remove('open');
+    }
+  </script>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap">
+      <div class="hero-inner">
+        <span class="eyebrow">Website Builds</span>
+        <h1>A website that works as hard as <em>you do.</em></h1>
+        <p class="lead">I build clean, professional websites for coaches, consultants, and solopreneurs — hosted on Hostinger and handed to you fully ready to go. One flat fee, no surprises, one year of free updates included.</p>
+        <div class="hero-actions">
+          <a href="mailto:contact@monaweathers.com" class="btn btn-primary">
+            Send me an email
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+          <a href="index.html#connect" class="btn btn-ghost">Learn more about me</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICE BAND -->
+  <div class="price-band">
+    <div class="wrap price-inner">
+      <div class="price-left">
+        <span class="label">One-time fee</span>
+        <h2>Everything you need to launch — design, build, and go live.</h2>
+      </div>
+      <div class="price-tag">
+        <div class="amount">$495</div>
+        <div class="sub">One-time · USD</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WHAT'S INCLUDED -->
+  <section class="included">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">What's Included</span>
+        <h2>Everything from design to launch.</h2>
+        <p>Your $495 covers the full build — plus a full year of simple changes at no extra charge.</p>
+      </div>
+      <div class="included-grid">
+        <div class="inc-card">
+          <div class="ic">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="4" width="18" height="14" rx="2.5"/><path d="M8 9l-2 2 2 2M13 9l2 2-2 2M3 21h18" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <h3>Custom design &amp; build</h3>
+          <p>A fully custom website designed and developed around your brand, your audience, and how you work — not a generic template.</p>
+        </div>
+        <div class="inc-card">
+          <div class="ic">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="9"/><path d="M12 3a15 15 0 0 1 0 18M3 12h18" stroke-linecap="round"/></svg>
+          </div>
+          <h3>Domain &amp; hosting setup</h3>
+          <p>I'll configure your domain to point to Hostinger. If you're currently on Squarespace, your domain stays there — I just update the DNS settings for you.</p>
+        </div>
+        <div class="inc-card">
+          <div class="ic">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 3a4 4 0 0 1 4 4v1a4 4 0 0 1-8 0V7a4 4 0 0 1 4-4Z" stroke-linecap="round"/><path d="M6 21v-1a6 6 0 0 1 12 0v1" stroke-linecap="round"/></svg>
+          </div>
+          <h3>1 year of free updates</h3>
+          <p>Need to add a page, update your copy, or swap out an image? Just send me an email and I'll take care of it — no extra charge for a full year after launch.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="how">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">How It Works</span>
+        <h2>From inbox to live site — here's the process.</h2>
+        <p>Simple, straightforward, and designed to keep things moving without a lot of back and forth.</p>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <div class="n">01</div>
+          <h3>Reach out</h3>
+          <p>Send me an email at contact@monaweathers.com and tell me a little about what you're looking for.</p>
+        </div>
+        <div class="step">
+          <div class="n">02</div>
+          <h3>Pay &amp; kick off</h3>
+          <p>Full payment of $495 is due upfront. Work begins as soon as payment is received — credit card accepted.</p>
+        </div>
+        <div class="step">
+          <div class="n">03</div>
+          <h3>Design &amp; build</h3>
+          <p>I design and build your site with up to two rounds of revisions before launch so it's exactly right.</p>
+        </div>
+        <div class="step">
+          <div class="n">04</div>
+          <h3>Launch &amp; hand off</h3>
+          <p>Your site goes live on Hostinger. You own everything — and you've got a year of free updates in your back pocket.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOSTING NOTE -->
+  <section class="hosting-note">
+    <div class="wrap">
+      <div class="hosting-inner">
+        <div class="hosting-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="2" y="5" width="20" height="6" rx="2"/><rect x="2" y="13" width="20" height="6" rx="2"/><path d="M6 8h.01M6 16h.01" stroke-linecap="round"/></svg>
+        </div>
+        <div class="hosting-text">
+          <h3>About hosting on Hostinger</h3>
+          <p>Your website will be hosted on <a href="https://www.hostinger.com?REFERRALCODE=WU1MONAWETRM" target="_blank" rel="noopener">Hostinger</a> — a fast, reliable, and affordable web host. Hosting fees are separate from my build fee and are your responsibility going forward. Plans start at just a few dollars a month. <a href="https://www.hostinger.com?REFERRALCODE=WU1MONAWETRM" target="_blank" rel="noopener">Check out Hostinger's pricing here →</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta">
+    <div class="wrap">
+      <span class="eyebrow" style="color:var(--accent);">Ready to get started?</span>
+      <h2 style="margin-top:18px;">Let's build your <em>website.</em></h2>
+      <p>Send me your email address and a quick note about what you're looking for. I'll get back to you and we'll get moving.</p>
+      <a href="mailto:contact@monaweathers.com" class="btn btn-primary">
+        contact@monaweathers.com
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M4 7l8 6 8-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="wrap">
+      <div class="foot-grid">
+        <div class="foot-brand">
+          <a class="brand" href="index.html">
+            <span class="mark">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="6" cy="6" r="2.4"/><circle cx="18" cy="6" r="2.4"/><circle cx="12" cy="18" r="2.4"/><path d="M6 8.4v3a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-3M12 13.4v2.2" stroke-linecap="round"/></svg>
+            </span>
+            <span class="name">Steady Systems LLC<small>AI &amp; Software Studio</small></span>
+          </a>
+          <p>AI assets and personalized software for one-person enterprises, coaches, consultants, solopreneurs, and educators.</p>
+        </div>
+        <div class="foot-cols">
+          <div class="foot-col">
+            <h4>Studio</h4>
+            <a href="index.html#services">What We Build</a>
+            <a href="website-builds.html">Website Builds</a>
+            <a href="index.html#approach">Approach</a>
+            <a href="index.html#connect">Connect</a>
+          </div>
+          <div class="foot-col">
+            <h4>Brands</h4>
+            <a href="https://monaweathers.com/" target="_blank" rel="noopener">Mona Weathers</a>
+            <a href="mailto:contact@monaweathers.com">contact@monaweathers.com</a>
+            <a href="https://www.linkedin.com/in/mona-weathers-060771379/" target="_blank" rel="noopener">LinkedIn</a>
+          </div>
+        </div>
+      </div>
+      <div class="foot-bottom">
+        <span>© 2026 Steady Systems LLC · <a href="terms-of-service.html" style="color:var(--ink-soft);">Terms of Service</a> · <a href="privacy-policy.html" style="color:var(--ink-soft);">Privacy Policy</a></span>
+        <div class="socials">
+          <a href="https://www.linkedin.com/in/mona-weathers-060771379/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M7 10v7M7 7v.01M11 17v-4a2 2 0 0 1 4 0v4" stroke-linecap="round"/></svg></a>
+          <a href="https://www.youtube.com/@MonaWeathers" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="2.5" y="5" width="19" height="14" rx="4"/><path d="M10 9l5 3-5 3z" fill="currentColor" stroke="none"/></svg></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
