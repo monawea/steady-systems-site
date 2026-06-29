@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Attract · Connect · Convert — Client Plan</title>
+<style>
+:root{--attract:#185FA5;--attract-bg:#E6F1FB;--attract-dark:#0C447C;--connect:#0F6E56;--connect-bg:#E1F5EE;--connect-dark:#085041;--convert:#534AB7;--convert-bg:#EEEDFE;--convert-dark:#3C3489;--amber-bg:#FAEEDA;--amber:#633806;--s0:#F5F4F1;--s1:#EFEFEC;--s2:#fff;--bd:rgba(0,0,0,0.1);--bds:rgba(0,0,0,0.18);--tp:#1a1a18;--ts:#5a5a57;--tm:#9a9a96}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--s0);color:var(--tp);font-size:14px;line-height:1.5}
+.app{max-width:900px;margin:0 auto;padding:24px 20px 60px}
+.app-title{font-size:22px;font-weight:600;margin-bottom:4px}
+.app-sub{font-size:14px;color:var(--ts);margin-bottom:24px}
+.tabs{display:flex;gap:4px;border-bottom:1px solid var(--bd);margin-bottom:24px;overflow-x:auto}
+.tab{padding:9px 14px;border-radius:8px 8px 0 0;cursor:pointer;font-size:13px;font-weight:500;color:var(--ts);border:1px solid transparent;white-space:nowrap;background:transparent;transition:all .15s}
+.tab.active{background:var(--s2);border-color:var(--bd);border-bottom-color:var(--s2);color:var(--tp);margin-bottom:-1px}
+.tab:hover:not(.active){background:var(--s1)}
+.panel{display:none}.panel.active{display:block}
+.card{background:var(--s2);border:1px solid var(--bd);border-radius:12px;padding:20px;margin-bottom:12px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.sh{font-size:11px;font-weight:600;color:var(--tm);text-transform:uppercase;letter-spacing:.07em;margin:20px 0 10px}
+.sh:first-child{margin-top:0}
+.banner{border-radius:10px;padding:12px 16px;margin-bottom:16px;display:flex;gap:12px;align-items:flex-start;font-size:13px;line-height:1.5}
+.banner-amber{background:var(--amber-bg);border:1px solid #EF9F27;color:var(--amber)}
+.phase-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:16px}
+.phase-card{border-radius:12px;border:1px solid var(--bd);padding:18px;background:var(--s2)}
+.plabel{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;margin-bottom:5px}
+.ptitle{font-size:18px;font-weight:600;margin-bottom:6px}
+.pdesc{font-size:13px;color:var(--ts);line-height:1.5}
+.attract .plabel,.attract .ptitle{color:var(--attract)}
+.connect .plabel,.connect .ptitle{color:var(--connect)}
+.convert .plabel,.convert .ptitle{color:var(--convert)}
+.principle{display:flex;gap:14px;padding:14px 0;border-bottom:1px solid var(--bd)}
+.principle:last-child{border-bottom:none;padding-bottom:0}
+.picon{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.ptitle2{font-size:14px;font-weight:600;margin-bottom:3px}
+.pbody{font-size:13px;color:var(--ts);line-height:1.5}
+.flow-bar{display:flex;border-radius:12px;overflow:hidden;border:1px solid var(--bd);margin-bottom:16px}
+.flow-cell{flex:1;padding:14px 12px;text-align:center;border-right:1px solid var(--bd)}
+.flow-cell:last-child{border-right:none}
+.flabel{font-size:10px;text-transform:uppercase;letter-spacing:.07em;font-weight:600;margin-bottom:4px}
+.fval{font-size:13px;font-weight:500}
+.toggle-group{display:flex;gap:4px}
+.tbtn{padding:5px 14px;font-size:12px;border-radius:6px;border:1px solid var(--bd);cursor:pointer;background:transparent;color:var(--ts);font-family:inherit;transition:all .15s}
+.tbtn.ap{background:var(--attract-bg);color:var(--attract-dark);border-color:#B5D4F4}
+.tbtn.as{background:var(--s1);color:var(--tp);border-color:var(--bds)}
+.plat-card{border:1px solid var(--bd);background:var(--s2);border-radius:10px;padding:16px;margin-bottom:10px}
+.plat-card.li{border-left:3px solid #0A66C2}
+.plat-card.yt{border-left:3px solid #FF0000}
+.plat-card.sk{border-left:3px solid #00B341}
+.plat-top{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.picon2{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0;color:#fff}
+.pname{font-size:14px;font-weight:600}
+.badge{display:inline-block;font-size:11px;padding:2px 9px;border-radius:20px;font-weight:600}
+.ba{background:var(--attract-bg);color:var(--attract-dark)}
+.bc{background:var(--connect-bg);color:var(--connect-dark)}
+.bn{background:var(--s1);color:var(--ts);border:1px solid var(--bd)}
+input,textarea,select{width:100%;border:1px solid var(--bd);border-radius:8px;padding:8px 10px;font-size:13px;font-family:inherit;background:var(--s1);color:var(--tp);outline:none;transition:border-color .15s}
+input:focus,textarea:focus,select:focus{border-color:var(--attract)}
+textarea{resize:vertical;min-height:60px;line-height:1.5}
+.fi-label{font-size:12px;color:var(--tm);display:block;margin-bottom:4px;font-weight:500}
+.fi-group{margin-bottom:12px}
+.strat-block{background:var(--s2);border:1px solid var(--bd);border-radius:12px;overflow:hidden;margin-bottom:12px}
+.strat-hd{padding:12px 16px;background:var(--s1);display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--bd)}
+.sicon{width:30px;height:30px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff}
+.stitle{font-size:14px;font-weight:600;flex:1}
+.strat-body{padding:16px;display:grid;gap:12px}
+.srow{display:grid;grid-template-columns:120px 1fr;gap:12px;align-items:start}
+.skey{font-size:12px;color:var(--tm);font-weight:500;padding-top:8px;line-height:1.3}
+.day-section{background:var(--s2);border:1px solid var(--bd);border-radius:12px;overflow:hidden;margin-bottom:10px}
+.day-hd{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:var(--s1);cursor:pointer;user-select:none}
+.day-hd:hover{background:#e8e8e5}
+.day-title{font-size:14px;font-weight:600}
+.day-body{padding:16px;display:none}
+.day-body.open{display:block}
+.checklist{display:grid;gap:10px}
+.check-item{display:flex;align-items:flex-start;gap:10px}
+.check-item input[type=checkbox]{width:16px;height:16px;margin-top:2px;cursor:pointer;accent-color:var(--convert);flex-shrink:0}
+.clabel{font-size:13px;color:var(--ts);line-height:1.4;flex:1;cursor:pointer}
+.clabel.done{text-decoration:line-through;color:var(--tm)}
+.prog-bar{height:4px;background:var(--s0);border-radius:2px;margin-top:4px;overflow:hidden;width:100px}
+.prog-fill{height:100%;background:var(--convert);border-radius:2px;transition:width .3s}
+.note-field{margin-top:12px;border-top:1px solid var(--bd);padding-top:12px}
+.subtabs{display:flex;gap:6px;margin-bottom:16px}
+.stab{padding:7px 16px;border-radius:20px;font-size:13px;cursor:pointer;border:1px solid var(--bd);background:transparent;color:var(--ts);font-family:inherit;font-weight:500;transition:all .15s}
+.stab.active{background:var(--tp);color:var(--s2);border-color:var(--tp)}
+.stab:hover:not(.active){background:var(--s1)}
+.subpanel{display:none}.subpanel.active{display:block}
+.kgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.phase-block{border-radius:12px;border:1px solid var(--bd);overflow:hidden;margin-bottom:10px}
+.phase-hd{padding:10px 16px;display:flex;align-items:center;gap:10px}
+.pdot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.phase-body{padding:16px;border-top:1px solid var(--bd)}
+.log-hdr{display:grid;grid-template-columns:1fr 90px 90px;gap:8px;padding-bottom:8px;border-bottom:1px solid var(--bds);margin-bottom:4px}
+.log-hdr span{font-size:11px;color:var(--tm);font-weight:600;text-align:center}
+.log-hdr span:first-child{text-align:left}
+.log-row{display:grid;grid-template-columns:1fr 90px 90px;gap:8px;align-items:center;padding:6px 0;border-bottom:1px solid var(--bd)}
+.log-row:last-child{border-bottom:none}
+.loglabel{font-size:13px;color:var(--ts)}
+.logtgt{font-size:12px;color:var(--tm);text-align:center}
+.logact input{text-align:center}
+.chart-wrap{display:flex;align-items:center;gap:28px;padding:16px 0}
+.legend{display:grid;gap:12px;flex:1}
+.legend-item{display:flex;align-items:center;gap:10px}
+.ldot{width:13px;height:13px;border-radius:50%;flex-shrink:0}
+.llabel{font-size:13px;color:var(--ts);flex:1}
+.lval{font-size:13px;font-weight:600}
+.lpct{font-size:12px;color:var(--tm);min-width:38px;text-align:right}
+.metric-card{background:var(--s1);border-radius:8px;padding:14px 16px}
+.mlabel{font-size:11px;color:var(--tm);margin-bottom:4px;font-weight:500}
+.mval{font-size:24px;font-weight:700}
+.msub{font-size:12px;color:var(--tm);margin-top:2px}
+.prog-wrap{margin:16px 0}
+.prog-label{display:flex;justify-content:space-between;margin-bottom:8px;font-size:13px}
+.prog-label span:last-child{font-weight:600}
+.prog-track{height:12px;background:var(--s1);border-radius:6px;overflow:hidden;border:1px solid var(--bd)}
+.prog-fill2{height:100%;border-radius:6px;transition:width .4s;background:var(--connect)}
+.offer-hd{display:grid;grid-template-columns:1fr 100px 100px 30px;gap:8px;padding-bottom:8px;border-bottom:1px solid var(--bds);margin-bottom:4px}
+.offer-hd span{font-size:11px;color:var(--tm);font-weight:600}
+.offer-row{display:grid;grid-template-columns:1fr 100px 100px 30px;gap:8px;align-items:center;padding:6px 0;border-bottom:1px solid var(--bd)}
+.offer-row:last-child{border-bottom:none}
+.del-btn{width:26px;height:26px;border-radius:5px;border:1px solid var(--bd);background:transparent;cursor:pointer;color:var(--tm);font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.del-btn:hover{background:#FCEBEB;color:#A32D2D;border-color:#F09595}
+.month-row{display:flex;align-items:center;gap:10px;margin-bottom:16px}
+.month-row select{width:auto}
+.day-hd-row{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:6px}
+.dhcell{font-size:11px;color:var(--tm);text-align:center;font-weight:600}
+.day-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:16px}
+.day-cell{border:1px solid var(--bd);border-radius:8px;padding:8px 6px;background:var(--s2);min-height:82px}
+.day-cell.logged{border-color:var(--connect);background:var(--connect-bg)}
+.day-cell.today-cell{border-color:var(--convert);border-width:2px}
+.dnum{font-size:11px;font-weight:600;color:var(--tm);margin-bottom:4px}
+.dnum.tn{color:var(--convert)}
+.dmi{width:100%;border:none;background:transparent;font-size:11px;color:var(--ts);font-family:inherit;outline:none;margin-bottom:2px;padding:0}
+.dmi::placeholder{color:var(--tm)}
+.ddone{display:flex;align-items:center;gap:3px;margin-top:4px}
+.ddone input{width:12px;height:12px;accent-color:var(--connect)}
+.ddone label{font-size:10px;color:var(--tm);cursor:pointer}
+.ch-sum{background:var(--s1);border-radius:8px;padding:10px 14px;font-size:13px;color:var(--ts);margin-bottom:16px;border:1px solid var(--bd)}
+.hist-card{background:var(--s2);border:1px solid var(--bd);border-radius:12px;overflow:hidden;margin-bottom:10px}
+.hist-hd{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;background:var(--s1);cursor:pointer}
+.hist-hd:hover{background:#e8e8e5}
+.hist-title{font-size:15px;font-weight:600;margin-bottom:5px}
+.hist-body{padding:16px;border-top:1px solid var(--bd);display:none}
+.hist-body.open{display:block}
+.hist-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px}
+.hm{background:var(--s1);border-radius:7px;padding:10px 12px}
+.hm-label{font-size:11px;color:var(--tm);margin-bottom:3px;font-weight:500}
+.hm-val{font-size:16px;font-weight:600}
+.hnote{font-size:13px;color:var(--ts);line-height:1.5;font-style:italic;border-top:1px solid var(--bd);padding-top:10px;margin-top:8px}
+.pill{display:inline-block;font-size:11px;padding:2px 9px;border-radius:20px;font-weight:600;margin-right:5px}
+.pg{background:var(--connect-bg);color:var(--connect-dark)}
+.pa{background:var(--amber-bg);color:var(--amber)}
+.pp{background:var(--convert-bg);color:var(--convert-dark)}
+.etoggle{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--bd)}
+.etoggle:last-child{border-bottom:none}
+.etoggle input{width:15px;height:15px;accent-color:var(--convert);cursor:pointer;flex-shrink:0}
+.etoggle label{font-size:13px;color:var(--ts);cursor:pointer;flex:1}
+.preview-box{background:var(--s1);border:1px solid var(--bd);border-radius:8px;padding:14px;font-size:12px;color:var(--ts);line-height:1.7;font-family:monospace;white-space:pre-wrap;word-break:break-word;max-height:280px;overflow-y:auto;margin-top:12px}
+.btn{padding:8px 18px;border-radius:8px;border:1px solid var(--bds);background:transparent;cursor:pointer;font-size:13px;font-weight:500;color:var(--tp);font-family:inherit;transition:all .15s;display:inline-flex;align-items:center;gap:7px}
+.btn:hover{background:var(--s1)}
+.btn-row{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+.save-row{display:flex;justify-content:flex-end;align-items:center;gap:8px;margin-top:12px}
+.save-btn{padding:7px 18px;border-radius:7px;border:1px solid var(--bds);background:transparent;cursor:pointer;font-size:13px;font-weight:500;color:var(--ts);font-family:inherit;transition:all .15s}
+.save-btn:hover{background:var(--s0);color:var(--tp)}
+.add-btn{font-size:12px;padding:5px 12px;border-radius:6px;border:1px solid var(--bd);background:transparent;cursor:pointer;color:var(--ts);font-family:inherit;margin-top:8px;transition:all .15s}
+.add-btn:hover{background:var(--s1);color:var(--tp)}
+.flash{font-size:12px;color:var(--connect);opacity:0;transition:opacity .3s}
+.prole-row{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--bd)}
+.prole-row:last-child{border-bottom:none}
+.role-note{font-size:13px;color:var(--tm);margin-bottom:16px;padding:9px 14px;background:var(--s1);border-radius:8px;display:none;border:1px solid var(--bd)}
+hr{border:none;border-top:1px solid var(--bd);margin:12px 0}
+.notice{background:var(--s1);border-radius:8px;padding:10px 14px;font-size:13px;color:var(--ts);margin-bottom:16px;line-height:1.5;border:1px solid var(--bd)}
+</style>
+</head>
+<body>
+<div class="app">
+<div class="app-title">Attract · Connect · Convert</div>
+<div class="app-sub">Client attraction and conversion plan</div>
+<div class="tabs">
+  <div class="tab active" onclick="switchTab('overview')">Overview</div>
+  <div class="tab" onclick="switchTab('platforms')">Platforms</div>
+  <div class="tab" onclick="switchTab('strategy')">Strategy</div>
+  <div class="tab" onclick="switchTab('daily')">Daily tracker</div>
+  <div class="tab" onclick="switchTab('kpis')">KPIs</div>
+  <div class="tab" onclick="switchTab('income')">Income goal</div>
+  <div class="tab" onclick="switchTab('challenge')">30-day challenge</div>
+  <div class="tab" onclick="switchTab('history')">History</div>
+  <div class="tab" onclick="switchTab('export')">Export</div>
+</div>
+
+<!-- OVERVIEW -->
+<div id="tab-overview" class="panel active">
+  <div class="banner banner-amber"><span style="font-size:16px;flex-shrink:0">🐢</span><div><strong>The Steady Method:</strong> Attraction does the heavy lifting. DMs build relationships — never lead with selling. Earn trust first. Offers only surface naturally, or through a free entry point. No cold pitching, ever.</div></div>
+  <div class="phase-grid">
+    <div class="phase-card attract"><div class="plabel">Phase 1</div><div class="ptitle">Attract</div><div class="pdesc">Content brings the right people to you. They raise their hand by engaging, following, or joining your community.</div></div>
+    <div class="phase-card connect"><div class="plabel">Phase 2</div><div class="ptitle">Connect</div><div class="pdesc">DMs and community deepen the relationship. Give value, show up consistently, and build genuine trust over time.</div></div>
+    <div class="phase-card convert"><div class="plabel">Phase 3</div><div class="ptitle">Convert</div><div class="pdesc">When it feels natural — or they ask — a free offer or working together comes up. They convert because they already trust you.</div></div>
+  </div>
+  <div class="sh">Your philosophy in practice</div>
+  <div class="card" style="padding:0">
+    <div class="principle" style="padding:16px 20px 14px"><div class="picon" style="background:#E6F1FB">🧲</div><div><div class="ptitle2">Let content do the outreach</div><div class="pbody">You don't go looking for clients — you create content so consistently and valuably that clients come looking for you.</div></div></div>
+    <div class="principle" style="padding:14px 20px"><div class="picon" style="background:#E1F5EE">💬</div><div><div class="ptitle2">DMs are conversations, not funnels</div><div class="pbody">When someone engages, respond like a human. Ask questions, be curious, add value. No script, no agenda.</div></div></div>
+    <div class="principle" style="padding:14px 20px"><div class="picon" style="background:#EEEDFE">🤝</div><div><div class="ptitle2">Trust before offers</div><div class="pbody">The offer comes after the relationship, not before. Only when the conversation naturally arrives there.</div></div></div>
+    <div class="principle" style="padding:14px 20px 16px"><div class="picon" style="background:#FAEEDA">🎁</div><div><div class="ptitle2">Free offer as a bridge, not a hook</div><div class="pbody">A free resource serves the person first. If they love it, the paid path becomes obvious — you don't need to point to it.</div></div></div>
+  </div>
+  <div class="sh">Ecosystem flow</div>
+  <div class="flow-bar">
+    <div class="flow-cell" style="background:var(--attract-bg)"><div class="flabel" style="color:var(--attract)">Attract</div><div class="fval" style="color:var(--attract-dark)" id="flow-val">Primary + Secondary</div></div>
+    <div class="flow-cell" style="background:var(--connect-bg)"><div class="flabel" style="color:var(--connect)">Connect</div><div class="fval" style="color:var(--connect-dark)">Skool + DMs</div></div>
+    <div class="flow-cell" style="background:var(--convert-bg);border-right:none"><div class="flabel" style="color:var(--convert)">Convert</div><div class="fval" style="color:var(--convert-dark)">Natural fit or free offer</div></div>
+  </div>
+</div>
+
+<!-- PLATFORMS -->
+<div id="tab-platforms" class="panel">
+  <div class="sh" style="margin-top:0">Choose your platform roles</div>
+  <div class="card" style="padding:0;margin-bottom:16px">
+    <div class="prole-row"><div style="display:flex;align-items:center;gap:10px"><div class="picon2" style="background:#0A66C2">in</div><div><div style="font-size:14px;font-weight:600">LinkedIn</div><div style="font-size:12px;color:var(--tm)">Professional network</div></div></div><div class="toggle-group"><button class="tbtn" id="li-pri" onclick="setRole('li','primary')">Primary</button><button class="tbtn" id="li-sec" onclick="setRole('li','secondary')">Secondary</button></div></div>
+    <div class="prole-row"><div style="display:flex;align-items:center;gap:10px"><div class="picon2" style="background:#FF0000">▶</div><div><div style="font-size:14px;font-weight:600">YouTube</div><div style="font-size:12px;color:var(--tm)">Long-form video search</div></div></div><div class="toggle-group"><button class="tbtn" id="yt-pri" onclick="setRole('yt','primary')">Primary</button><button class="tbtn" id="yt-sec" onclick="setRole('yt','secondary')">Secondary</button></div></div>
+  </div>
+  <div class="role-note" id="role-note"></div>
+  <div class="sh">Platform strategies</div>
+  <div class="plat-card li"><div class="plat-top"><div class="picon2" style="background:#0A66C2">in</div><div><div class="pname">LinkedIn</div><div id="li-role-badge"><span class="badge bn">No role set</span></div></div></div><label class="fi-label">Your strategy</label><textarea id="li-strat" placeholder="What you post, how often, how DMs fit in..."></textarea></div>
+  <div class="plat-card yt"><div class="plat-top"><div class="picon2" style="background:#FF0000">▶</div><div><div class="pname">YouTube</div><div id="yt-role-badge"><span class="badge bn">No role set</span></div></div></div><label class="fi-label">Your strategy</label><textarea id="yt-strat" placeholder="Content pillars, cadence, how videos funnel into your community..."></textarea></div>
+  <div class="plat-card sk"><div class="plat-top"><div class="picon2" style="background:#00B341">S</div><div><div class="pname">Skool</div><div><span class="badge bc">Community · Connect and nurture</span></div></div></div><label class="fi-label">Your strategy</label><textarea id="sk-strat" placeholder="What people join for, how trust builds, how paid conversations emerge naturally..."></textarea></div>
+  <div class="sh">Additional platforms</div>
+  <div class="banner banner-amber" style="margin-bottom:12px"><span style="font-size:16px;flex-shrink:0">⚠</span><div>Only add these if you have the capacity. It's better to double down on your primary and secondary platforms than to spread thin across more.</div></div>
+  <div class="grid2"><div class="card"><label class="fi-label">Additional platform 1</label><textarea id="add1" placeholder="Platform name and how it supports attract or connect..."></textarea></div><div class="card"><label class="fi-label">Additional platform 2</label><textarea id="add2" placeholder="Platform name and how it supports attract or connect..."></textarea></div></div>
+  <div class="save-row"><span class="flash" id="plat-flash">Saved</span><button class="save-btn" onclick="savePlatforms()">Save platforms</button></div>
+</div>
+
+<!-- STRATEGY -->
+<div id="tab-strategy" class="panel">
+  <div class="strat-block">
+    <div class="strat-hd"><div class="sicon" style="background:#0A66C2">in</div><div class="stitle">LinkedIn strategy</div><span id="li-sr" style="font-size:12px;color:var(--tm)"></span></div>
+    <div class="strat-body">
+      <div class="srow"><div class="skey">Goal</div><div><textarea id="s-li-goal" placeholder="What does success look like in 90 days?"></textarea></div></div>
+      <div class="srow"><div class="skey">Content types</div><div><textarea id="s-li-content" placeholder="Text posts, carousels, short video..."></textarea></div></div>
+      <div class="srow"><div class="skey">Posting cadence</div><div><textarea id="s-li-cadence" placeholder="How many times per week and what mix..."></textarea></div></div>
+      <div class="srow"><div class="skey">How you attract</div><div><textarea id="s-li-attract" placeholder="Topics, hooks, and angles that pull your ideal person in..."></textarea></div></div>
+      <div class="srow"><div class="skey">DM approach</div><div><textarea id="s-li-dm" placeholder="How you respond to commenters, when you DM — no pitching, just curiosity..."></textarea></div></div>
+      <div class="srow"><div class="skey">Bridge to Skool</div><div><textarea id="s-li-bridge" placeholder="How content naturally invites people into your community..."></textarea></div></div>
+    </div>
+  </div>
+  <div class="strat-block">
+    <div class="strat-hd"><div class="sicon" style="background:#FF0000">▶</div><div class="stitle">YouTube strategy</div><span id="yt-sr" style="font-size:12px;color:var(--tm)"></span></div>
+    <div class="strat-body">
+      <div class="srow"><div class="skey">Goal</div><div><textarea id="s-yt-goal" placeholder="What does success look like in 90 days?"></textarea></div></div>
+      <div class="srow"><div class="skey">Content pillars</div><div><textarea id="s-yt-pillars" placeholder="3–4 topic categories your channel covers..."></textarea></div></div>
+      <div class="srow"><div class="skey">Posting cadence</div><div><textarea id="s-yt-cadence" placeholder="Long-form frequency plus Shorts cadence..."></textarea></div></div>
+      <div class="srow"><div class="skey">Discovery strategy</div><div><textarea id="s-yt-seo" placeholder="Keywords, thumbnails, titles..."></textarea></div></div>
+      <div class="srow"><div class="skey">Bridge to Skool</div><div><textarea id="s-yt-bridge" placeholder="How videos direct people toward the community..."></textarea></div></div>
+    </div>
+  </div>
+  <div class="strat-block">
+    <div class="strat-hd"><div class="sicon" style="background:#00B341">S</div><div class="stitle">Skool strategy</div></div>
+    <div class="strat-body">
+      <div class="srow"><div class="skey">Goal</div><div><textarea id="s-sk-goal" placeholder="Member targets, engagement targets, conversion rate..."></textarea></div></div>
+      <div class="srow"><div class="skey">Join incentive</div><div><textarea id="s-sk-join" placeholder="What immediate value do they get the moment they join?"></textarea></div></div>
+      <div class="srow"><div class="skey">Nurture rhythm</div><div><textarea id="s-sk-nurture" placeholder="How often you post, run lives, ask questions, celebrate wins..."></textarea></div></div>
+      <div class="srow"><div class="skey">Trust-building</div><div><textarea id="s-sk-trust" placeholder="How you show up consistently so members genuinely trust you..."></textarea></div></div>
+      <div class="srow"><div class="skey">Natural conversion</div><div><textarea id="s-sk-convert" placeholder="How working together or a free offer comes up organically..."></textarea></div></div>
+    </div>
+  </div>
+  <div class="strat-block">
+    <div class="strat-hd"><div class="sicon" style="background:#EEEDFE;color:var(--convert-dark)">🎁</div><div class="stitle">Free offer strategy</div></div>
+    <div class="strat-body">
+      <div class="srow"><div class="skey">The offer</div><div><textarea id="s-free-offer" placeholder="What is your free offer — resource, call, audit, challenge, mini-course?"></textarea></div></div>
+      <div class="srow"><div class="skey">Who it's for</div><div><textarea id="s-free-who" placeholder="Exactly who this is designed for and what problem it solves..."></textarea></div></div>
+      <div class="srow"><div class="skey">How it's introduced</div><div><textarea id="s-free-intro" placeholder="How the free offer surfaces naturally — never cold, never scripted..."></textarea></div></div>
+      <div class="srow"><div class="skey">What follows</div><div><textarea id="s-free-after" placeholder="How a paid path becomes obvious without being pushed..."></textarea></div></div>
+    </div>
+  </div>
+  <div class="save-row"><span class="flash" id="strat-flash">Saved</span><button class="save-btn" onclick="saveStrategy()">Save strategy</button></div>
+</div>
+
+<!-- DAILY -->
+<div id="tab-daily" class="panel">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px"><div style="font-size:13px;color:var(--ts)">Attraction first, relationships second, trust always.</div><button class="save-btn" onclick="resetDaily()">Reset all</button></div>
+  <div id="daily-list"></div>
+</div>
+
+<!-- KPIs -->
+<div id="tab-kpis" class="panel">
+  <div class="subtabs">
+    <button class="stab active" onclick="switchSub('targets')">Weekly targets</button>
+    <button class="stab" onclick="switchSub('log')">Weekly log</button>
+    <button class="stab" onclick="switchSub('chart')">Effort breakdown</button>
+  </div>
+  <div id="sub-targets" class="subpanel active">
+    <div class="notice">Set these once. These are your goals — use the weekly log to record what actually happened.</div>
+    <div class="sh">Attract</div>
+    <div class="kgrid">
+      <div class="fi-group"><label class="fi-label">Primary platform posts/week</label><input type="number" id="t-pp" placeholder="5"></div>
+      <div class="fi-group"><label class="fi-label">Secondary platform posts/week</label><input type="number" id="t-sp" placeholder="2"></div>
+      <div class="fi-group"><label class="fi-label">YouTube videos/week</label><input type="number" id="t-yv" placeholder="1"></div>
+      <div class="fi-group"><label class="fi-label">YouTube Shorts/week</label><input type="number" id="t-ys" placeholder="2"></div>
+      <div class="fi-group"><label class="fi-label">Comments on others/week</label><input type="number" id="t-co" placeholder="10"></div>
+      <div class="fi-group"><label class="fi-label">New followers/connections/week</label><input type="number" id="t-nf" placeholder="50"></div>
+    </div>
+    <div class="sh">Connect</div>
+    <div class="kgrid">
+      <div class="fi-group"><label class="fi-label">New Skool members/week</label><input type="number" id="t-sm" placeholder="10"></div>
+      <div class="fi-group"><label class="fi-label">Skool posts/week</label><input type="number" id="t-skp" placeholder="3"></div>
+      <div class="fi-group"><label class="fi-label">Genuine DM conversations/week</label><input type="number" id="t-dm" placeholder="5"></div>
+      <div class="fi-group"><label class="fi-label">Live sessions/month</label><input type="number" id="t-lv" placeholder="4"></div>
+    </div>
+    <div class="sh">Convert</div>
+    <div class="kgrid">
+      <div class="fi-group"><label class="fi-label">Free offers taken up/month</label><input type="number" id="t-fo" placeholder="10"></div>
+      <div class="fi-group"><label class="fi-label">Natural working-together convos/month</label><input type="number" id="t-wt" placeholder="4"></div>
+      <div class="fi-group"><label class="fi-label">New clients/month</label><input type="number" id="t-cl" placeholder="2"></div>
+      <div class="fi-group"><label class="fi-label">Revenue goal/month ($)</label><input type="number" id="t-rv" placeholder="10000"></div>
+    </div>
+    <div class="save-row"><span class="flash" id="t-flash">Saved</span><button class="save-btn" onclick="saveTargets()">Save targets</button></div>
+  </div>
+  <div id="sub-log" class="subpanel">
+    <div class="phase-block">
+      <div class="phase-hd" style="background:var(--attract-bg)"><div class="pdot" style="background:var(--attract)"></div><div style="font-size:13px;font-weight:600;color:var(--attract-dark)">Attract</div></div>
+      <div class="phase-body">
+        <div class="log-hdr"><span>Metric</span><span>Target</span><span>Actual</span></div>
+        <div class="log-row"><div class="loglabel">Primary posts</div><div class="logtgt" id="lt-pp">—</div><div class="logact"><input type="number" id="la-pp" placeholder="0"></div></div>
+        <div class="log-row"><div class="loglabel">Secondary posts</div><div class="logtgt" id="lt-sp">—</div><div class="logact"><input type="number" id="la-sp" placeholder="0"></div></div>
+        <div class="log-row"><div class="loglabel">YouTube videos</div><div class="logtgt" id="lt-yv">—</div><div class="logact"><input type="number" id="la-yv" placeholder="0"></div></div>
+        <div class="log-row"><div class="loglabel">YouTube Shorts</div><div class="logtgt" id="lt-ys">—</div><div class="logact"><input type="number" id="la-ys" placeholder="0"></div></div>
+        <div class="log-row"><div class="loglabel">Comments on others</div><div class="logtgt" id="lt-co">—</div><div class="logact"><input type="number" id="la-co" placeholder="0"></div></div>
+        <div class="log-row"><div class="loglabel">New followers/connections</div><div class="logtgt" id="lt-nf">—</div><div class="logact"><input type="number" id="la-nf" placeholder="0"></div></div>
+      </div>
+    </div>
+    <div class="phase-block">
+      <div class="phase-hd" style="background:var(--connect-bg)"><div class="pdot" style="background:var(--connect)"></div><div style="font-size:13px;font-weight:600;color:var(--connect-dark)">Connect</div></div>
+      <div class="phase-body">
+        <div class="log-hdr"><span>Metric</span><span>Target</span><span>Actual</span></div>
+        <div class="log-row"><div class="loglabel">New Skool members</div><div class="logtgt" id="lt-sm">—</div><div class="logact"><input type="number" id="la-sm" placeholder="0"></div></div>
+        <div class="log-row"><div class="loglabel">Skool posts</div><div class="logtgt" id="lt-skp">—</div><div class="logact"><input type="number" id="la-skp" placeholder="0"></div></div>
+        <div class="log-row"><div class="loglabel">Genuine DM conversations</div><div class="logtgt" id="lt-dm">—</div><div class="logact"><input type="number" id="la-dm" placeholder="0"></div></div>
+      </div>
+    </div>
+    <div class="phase-block">
+      <div class="phase-hd" style="background:var(--convert-bg)"><div class="pdot" style="background:var(--convert)"></div><div style="font-size:13px;font-weight:600;color:var(--convert-dark)">Convert</div></div>
+      <div class="phase-body">
+        <div class="log-hdr"><span>Metric</span><span>Target</span><span>Actual</span></div>
+        <div class="log-row"><div class="loglabel">Free offers taken up</div><div class="logtgt" id="lt-fo">—</div><div class="logact"><input type="number" id="la-fo" placeholder="0"></div></div>
+        <div class="log-row"><div class="loglabel">Natural working-together convos</div><div class="logtgt" id="lt-wt">—</div><div class="logact"><input type="number" id="la-wt" placeholder="0"></div></div>
+        <div class="log-row"><div class="loglabel">New clients</div><div class="logtgt" id="lt-cl">—</div><div class="logact"><input type="number" id="la-cl" placeholder="0"></div></div>
+      </div>
+    </div>
+    <div class="save-row"><span class="flash" id="l-flash">Saved</span><button class="save-btn" onclick="saveLog()">Save this week's log</button></div>
+  </div>
+  <div id="sub-chart" class="subpanel">
+    <div class="notice">How your logged weekly activity splits across the three phases.</div>
+    <div class="card"><div class="chart-wrap"><canvas id="pieCanvas" width="180" height="180" style="flex-shrink:0"></canvas><div class="legend" id="pieLegend"></div></div></div>
+    <div class="card"><div style="font-size:13px;font-weight:600;margin-bottom:8px">What the split means</div><div id="chart-insight" style="font-size:13px;color:var(--ts);line-height:1.6"></div></div>
+  </div>
+</div>
+
+<!-- INCOME -->
+<div id="tab-income" class="panel">
+  <div class="sh" style="margin-top:0">Monthly income goal</div>
+  <div class="card">
+    <div class="grid2" style="margin-bottom:14px">
+      <div class="fi-group"><label class="fi-label">Income goal this month ($)</label><input type="number" id="inc-goal" placeholder="10000" oninput="updateIncome()"></div>
+      <div class="fi-group"><label class="fi-label">Actual income earned so far ($)</label><input type="number" id="inc-actual" placeholder="0" oninput="updateIncome()"></div>
+    </div>
+    <div class="prog-wrap">
+      <div class="prog-label"><span>Progress to goal</span><span id="inc-pct">0%</span></div>
+      <div class="prog-track"><div class="prog-fill2" id="inc-bar" style="width:0%"></div></div>
+    </div>
+    <div class="grid3" style="margin-top:16px">
+      <div class="metric-card"><div class="mlabel">Goal</div><div class="mval" id="m-goal">$0</div></div>
+      <div class="metric-card"><div class="mlabel">Earned</div><div class="mval" id="m-earned">$0</div></div>
+      <div class="metric-card"><div class="mlabel">Remaining</div><div class="mval" id="m-remaining">$0</div><div class="msub" id="m-sub"></div></div>
+    </div>
+  </div>
+  <div class="sh">Break it down by offer</div>
+  <div class="card">
+    <div class="offer-hd"><span>Offer name</span><span>Price ($)</span><span>Clients</span><span></span></div>
+    <div id="offers-list"></div>
+    <button class="add-btn" onclick="addOffer()">+ Add offer</button>
+    <hr>
+    <div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:13px;color:var(--ts)">Projected from offers</span><span style="font-size:16px;font-weight:700" id="offers-total">$0</span></div>
+  </div>
+  <div class="sh">What's driving income</div>
+  <div class="card"><label class="fi-label">Notes on offers, what's working, what to push more</label><textarea id="inc-notes" rows="3" placeholder="e.g. The 1:1 coaching offer converted 3 times this month after Skool members asked about it directly..."></textarea></div>
+  <div class="save-row"><span class="flash" id="inc-flash">Saved</span><button class="save-btn" onclick="saveIncome()">Save income data</button></div>
+</div>
+
+<!-- 30-DAY CHALLENGE -->
+<div id="tab-challenge" class="panel">
+  <div class="month-row">
+    <select id="challenge-month" onchange="loadChallenge()"></select>
+    <button class="add-btn" onclick="newMonth()">+ New month</button>
+  </div>
+  <div class="card">
+    <div class="sh" style="margin-top:0">Challenge setup</div>
+    <div class="grid2">
+      <div class="fi-group"><label class="fi-label">Challenge name</label><input type="text" id="ch-name" placeholder="e.g. 30-day content consistency challenge"></div>
+      <div class="fi-group"><label class="fi-label">Daily commitment</label><input type="text" id="ch-goal" placeholder="e.g. Post every day + 5 genuine DMs"></div>
+    </div>
+    <div class="save-row" style="margin-top:4px"><span class="flash" id="ch-setup-flash">Saved</span><button class="save-btn" onclick="saveSetup()">Save setup</button></div>
+  </div>
+  <div class="sh">Daily log</div>
+  <div class="ch-sum" id="ch-summary">Set your challenge goal above, then log each day below.</div>
+  <div class="day-hd-row"><div class="dhcell">Mon</div><div class="dhcell">Tue</div><div class="dhcell">Wed</div><div class="dhcell">Thu</div><div class="dhcell">Fri</div><div class="dhcell">Sat</div><div class="dhcell">Sun</div></div>
+  <div class="day-grid" id="day-grid"></div>
+  <div class="save-row"><span class="flash" id="ch-flash">Saved</span><button class="save-btn" onclick="saveChallenge()">Save challenge log</button></div>
+  <div style="margin-top:16px;padding-top:16px;border-top:1px solid var(--bd);display:flex;justify-content:flex-end"><button class="save-btn" onclick="archiveCurrentMonth()">Archive this month to history →</button></div>
+</div>
+
+<!-- HISTORY -->
+<div id="tab-history" class="panel">
+  <div class="notice">A record of every archived month. Compare income vs goal, challenge completion, and key metrics over time.</div>
+  <div id="history-list"></div>
+</div>
+
+<!-- EXPORT -->
+<div id="tab-export" class="panel">
+  <div class="notice">Pulls everything saved into a plain text document you can copy or download.</div>
+  <div class="card">
+    <div class="sh" style="margin-top:0">Choose what to include</div>
+    <div class="etoggle"><input type="checkbox" id="inc-ov" checked><label for="inc-ov">Overview and philosophy</label></div>
+    <div class="etoggle"><input type="checkbox" id="inc-pl" checked><label for="inc-pl">Platform roles and notes</label></div>
+    <div class="etoggle"><input type="checkbox" id="inc-st" checked><label for="inc-st">Full strategy</label></div>
+    <div class="etoggle"><input type="checkbox" id="inc-tg" checked><label for="inc-tg">Weekly KPI targets</label></div>
+    <div class="etoggle"><input type="checkbox" id="inc-lg" checked><label for="inc-lg">Latest weekly log</label></div>
+    <div class="etoggle"><input type="checkbox" id="inc-dl" checked><label for="inc-dl">Daily tracker task list</label></div>
+  </div>
+  <div class="card">
+    <div class="sh" style="margin-top:0">Preview</div>
+    <div class="preview-box" id="preview-box">Press "Generate preview" to see your export.</div>
+    <div class="btn-row">
+      <button class="btn" onclick="generatePreview()">👁 Generate preview</button>
+      <button class="btn" onclick="copyAll()">📋 Copy to clipboard<span class="flash" id="copy-flash" style="margin-left:8px"> Copied</span></button>
+      <button class="btn" onclick="downloadTxt()">⬇ Download .txt</button>
+    </div>
+  </div>
+</div>
+</div>
+
+<script>
+const DT=[
+  {id:'d-create',title:'Create — attract',items:[{id:'dc1',l:'Publish or schedule 1 post on your primary platform'},{id:'dc2',l:'Publish or schedule 1 piece on your secondary platform'},{id:'dc3',l:'Work on YouTube — script, record, edit, or publish'},{id:'dc4',l:'Review what content performed well and note the theme'}],note:true},
+  {id:'d-engage',title:'Engage — attract',items:[{id:'de1',l:'Leave 5 meaningful comments on content in your niche'},{id:'de2',l:'Reply to every comment on your own content today'},{id:'de3',l:"Respond to any DMs — be curious, not sales-y"},{id:'de4',l:'Follow up on any ongoing genuine conversations'}],note:true},
+  {id:'d-skool',title:'Skool — connect and nurture',items:[{id:'ds1',l:'Post 1 value piece, question, or prompt in the community'},{id:'ds2',l:'Welcome new members by name — make it personal'},{id:'ds3',l:'Reply to every thread or comment from yesterday'},{id:'ds4',l:'Spot 2–3 members doing great work and acknowledge them'},{id:'ds5',l:'Check if a live or challenge is coming up and promote it'}],note:true},
+  {id:'d-dm',title:'DM conversations — connect',items:[{id:'dd1',l:'Check who engaged and reach out to say thanks or ask a follow-up'},{id:'dd2',l:'Continue 2–3 ongoing conversations with community members'},{id:'dd3',l:'If it feels natural, mention a free resource to someone who would benefit'},{id:'dd4',l:'No pitching — note any natural fit that emerged today'}],note:true},
+  {id:'d-content',title:'Content planning',items:[{id:'cp1',l:'Repurpose 1 YouTube video or Skool post into platform content'},{id:'cp2',l:'Plan the next 3 pieces of content across platforms'},{id:'cp3',l:'Batch-write captions, scripts, or outlines for upcoming posts'}],note:false},
+  {id:'d-review',title:'End-of-day check-in',items:[{id:'rv1',l:'Did my content attract someone new today?'},{id:'rv2',l:'Did I deepen a relationship without an agenda today?'},{id:'rv3',l:'Did I give more value than I asked for today?'},{id:'rv4',l:'Is there anyone I should follow up with tomorrow?'}],note:true}
+];
+const MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
+const now=new Date();
+
+function gs(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d;}catch(e){return d;}}
+function ss(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}
+function flash(id){const el=document.getElementById(id);if(!el)return;el.style.opacity=1;setTimeout(()=>el.style.opacity=0,2000);}
+function fmt(n){return '$'+Math.round(n).toLocaleString();}
+
+function switchTab(n){
+  const names=['overview','platforms','strategy','daily','kpis','income','challenge','history','export'];
+  document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',names[i]===n));
+  document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('active',p.id==='tab-'+n));
+  if(n==='kpis')syncTargetsToLog();
+  if(n==='history')renderHistory();
+}
+
+function switchSub(n){
+  document.querySelectorAll('.stab').forEach((t,i)=>t.classList.toggle('active',['targets','log','chart'][i]===n));
+  document.querySelectorAll('.subpanel').forEach(p=>p.classList.toggle('active',p.id==='sub-'+n));
+  if(n==='log')syncTargetsToLog();
+  if(n==='chart')drawChart();
+}
+
+const roles=gs('platform-roles',{li:null,yt:null});
+function setRole(plat,role){
+  const other=plat==='li'?'yt':'li';
+  if(roles[other]===role)roles[other]=null;
+  roles[plat]=role;ss('platform-roles',roles);updateRoleUI();
+}
+function updateRoleUI(){
+  ['li','yt'].forEach(p=>{
+    const pri=document.getElementById(p+'-pri');
+    const sec=document.getElementById(p+'-sec');
+    if(!pri||!sec)return;
+    pri.className='tbtn'+(roles[p]==='primary'?' ap':'');
+    sec.className='tbtn'+(roles[p]==='secondary'?' as':'');
+  });
+  const note=document.getElementById('role-note');
+  if(roles.li&&roles.yt){
+    note.style.display='block';
+    note.textContent='LinkedIn is your '+roles.li+' platform. YouTube is your '+roles.yt+' platform.';
+    const fv=document.getElementById('flow-val');
+    if(fv){const pri=roles.li==='primary'?'LinkedIn':'YouTube';const sec=roles.li==='secondary'?'LinkedIn':'YouTube';fv.textContent=pri+' (primary) + '+sec+' (secondary)';}
+  } else {note.style.display='none';}
+  const liB=document.getElementById('li-role-badge');
+  const ytB=document.getElementById('yt-role-badge');
+  if(liB)liB.innerHTML=roles.li?'<span class="badge '+(roles.li==='primary'?'ba':'bn')+'">'+(roles.li==='primary'?'Primary · Attract':'Secondary · Attract')+'</span>':'<span class="badge bn">No role set</span>';
+  if(ytB)ytB.innerHTML=roles.yt?'<span class="badge '+(roles.yt==='primary'?'ba':'bn')+'">'+(roles.yt==='primary'?'Primary · Attract':'Secondary · Attract')+'</span>':'<span class="badge bn">No role set</span>';
+  const liSR=document.getElementById('li-sr');
+  const ytSR=document.getElementById('yt-sr');
+  if(liSR)liSR.textContent=roles.li?(roles.li==='primary'?'Primary':'Secondary'):'';
+  if(ytSR)ytSR.textContent=roles.yt?(roles.yt==='primary'?'Primary':'Secondary'):'';
+}
+
+function buildDaily(){
+  const container=document.getElementById('daily-list');
+  container.innerHTML='';
+  DT.forEach(sec=>{
+    const checked=gs('daily-'+sec.id,{});
+    const note=gs('note-'+sec.id,'');
+    const total=sec.items.length;
+    const done=Object.values(checked).filter(Boolean).length;
+    const pct=total?Math.round(done/total*100):0;
+    const div=document.createElement('div');
+    div.className='day-section';
+    div.innerHTML=`<div class="day-hd" onclick="toggleDay('db-${sec.id}',this)">
+      <div><div class="day-title">${sec.title}</div>
+      <div class="prog-bar"><div class="prog-fill" id="pf-${sec.id}" style="width:${pct}%"></div></div></div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <span style="font-size:12px;color:var(--tm)" id="cnt-${sec.id}">${done}/${total}</span>
+        <span style="font-size:18px;color:var(--tm)" id="chev-${sec.id}">›</span>
+      </div></div>
+      <div class="day-body" id="db-${sec.id}">
+        <div class="checklist">
+          ${sec.items.map(it=>`<div class="check-item">
+            <input type="checkbox" id="chk-${it.id}" ${checked[it.id]?'checked':''} onchange="toggleCheck('${sec.id}','${it.id}',this.checked)">
+            <label class="clabel${checked[it.id]?' done':''}" for="chk-${it.id}" id="lbl-${it.id}">${it.l}</label>
+          </div>`).join('')}
+        </div>
+        ${sec.note?`<div class="note-field"><textarea placeholder="Notes..." id="nt-${sec.id}" onchange="ss('note-${sec.id}',this.value)">${note}</textarea></div>`:''}
+      </div>`;
+    container.appendChild(div);
+  });
+}
+
+function toggleDay(id,hd){
+  const b=document.getElementById(id);
+  const open=b.classList.toggle('open');
+  hd.classList.toggle('open',open);
+}
+
+function toggleCheck(secId,itemId,val){
+  const state=gs('daily-'+secId,{});
+  state[itemId]=val;ss('daily-'+secId,state);
+  const lbl=document.getElementById('lbl-'+itemId);
+  if(lbl)lbl.className='clabel'+(val?' done':'');
+  const sec=DT.find(s=>s.id===secId);
+  const total=sec.items.length;
+  const done=Object.values(state).filter(Boolean).length;
+  const bar=document.getElementById('pf-'+secId);
+  if(bar)bar.style.width=Math.round(done/total*100)+'%';
+  const cnt=document.getElementById('cnt-'+secId);
+  if(cnt)cnt.textContent=done+'/'+total;
+}
+
+function resetDaily(){
+  if(!confirm('Reset all daily checkboxes?'))return;
+  DT.forEach(s=>{ss('daily-'+s.id,{});ss('note-'+s.id,'');});
+  buildDaily();
+}
+
+function savePlatforms(){
+  const d={};
+  ['li-strat','yt-strat','sk-strat','add1','add2'].forEach(f=>{const el=document.getElementById(f);if(el)d[f]=el.value;});
+  ss('platform-strats',d);flash('plat-flash');
+}
+
+function saveStrategy(){
+  const ids=['s-li-goal','s-li-content','s-li-cadence','s-li-attract','s-li-dm','s-li-bridge','s-yt-goal','s-yt-pillars','s-yt-cadence','s-yt-seo','s-yt-bridge','s-sk-goal','s-sk-join','s-sk-nurture','s-sk-trust','s-sk-convert','s-free-offer','s-free-who','s-free-intro','s-free-after'];
+  const d={};ids.forEach(f=>{const el=document.getElementById(f);if(el)d[f]=el.value;});
+  ss('strategy-data',d);flash('strat-flash');
+}
+
+function saveTargets(){
+  const ids=['pp','sp','yv','ys','co','nf','sm','skp','dm','lv','fo','wt','cl','rv'];
+  const d={};ids.forEach(k=>{const el=document.getElementById('t-'+k);if(el)d[k]=el.value;});
+  ss('kpi-targets',d);flash('t-flash');
+}
+
+function saveLog(){
+  const ids=['pp','sp','yv','ys','co','nf','sm','skp','dm','fo','wt','cl'];
+  const d={};ids.forEach(k=>{const el=document.getElementById('la-'+k);if(el)d[k]=el.value;});
+  ss('kpi-log',d);flash('l-flash');
+}
+
+function syncTargetsToLog(){
+  const d=gs('kpi-targets',{});
+  ['pp','sp','yv','ys','co','nf','sm','skp','dm','fo','wt','cl'].forEach(k=>{
+    const el=document.getElementById('lt-'+k);if(el)el.textContent=d[k]||'—';
+  });
+}
+
+function drawChart(){
+  const canvas=document.getElementById('pieCanvas');if(!canvas)return;
+  const ctx=canvas.getContext('2d');
+  const l=gs('kpi-log',{});
+  const aK=['pp','sp','yv','ys','co','nf'],cK=['sm','skp','dm'],vK=['fo','wt','cl'];
+  const sum=keys=>keys.reduce((a,k)=>a+(parseFloat(l[k])||0),0);
+  const attract=sum(aK),connect=sum(cK),convert=sum(vK),total=attract+connect+convert;
+  const COLORS={attract:'#185FA5',connect:'#0F6E56',convert:'#534AB7'};
+  const vals={attract,connect,convert};
+  const keys=['attract','connect','convert'];
+  const labels={attract:'Attract',connect:'Connect',convert:'Convert'};
+  ctx.clearRect(0,0,180,180);
+  const cx=90,cy=90,r=80;
+  if(total===0){
+    ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);ctx.fillStyle='#efefec';ctx.fill();
+    ctx.font='12px sans-serif';ctx.fillStyle='#9a9a96';ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.fillText('Log activity first',cx,cy-8);ctx.fillText('to see the chart',cx,cy+10);
+    document.getElementById('pieLegend').innerHTML='<div style="font-size:13px;color:#9a9a96">Add weekly log numbers to see the breakdown.</div>';
+    document.getElementById('chart-insight').textContent='Once you log your weekly activity, this chart shows whether your energy is weighted toward attracting, connecting, or converting.';
+    return;
+  }
+  let start=-Math.PI/2;
+  keys.forEach(k=>{
+    const slice=(vals[k]/total)*Math.PI*2;
+    ctx.beginPath();ctx.moveTo(cx,cy);ctx.arc(cx,cy,r,start+0.04,start+slice-0.04);
+    ctx.closePath();ctx.fillStyle=COLORS[k];ctx.fill();start+=slice;
+  });
+  ctx.beginPath();ctx.arc(cx,cy,38,0,Math.PI*2);ctx.fillStyle='#fff';ctx.fill();
+  document.getElementById('pieLegend').innerHTML=keys.map(k=>{
+    const pct=total?Math.round(vals[k]/total*100):0;
+    return`<div class="legend-item"><div class="ldot" style="background:${COLORS[k]}"></div><div class="llabel">${labels[k]}</div><div class="lval">${vals[k]}</div><div class="lpct">${pct}%</div></div>`;
+  }).join('');
+  const aP=total?Math.round(attract/total*100):0,coP=total?Math.round(connect/total*100):0,cvP=total?Math.round(convert/total*100):0;
+  let msg='';
+  if(aP>=60)msg="Your energy is heavily weighted toward attracting — good for building an audience. Make sure you're also spending time in community and deepening relationships.";
+  else if(coP>=60)msg="You're investing a lot in connecting. That builds trust well. Check that your attraction content is consistent enough to keep new people flowing in.";
+  else if(cvP>=40)msg="A high convert proportion is worth watching — remember your method is to let attraction do the heavy lifting and let conversion happen naturally.";
+  else msg="Your effort looks reasonably spread across all three phases. If you're growing, lean more into attract. If you have a warm audience, lean into connect.";
+  document.getElementById('chart-insight').textContent=msg;
+}
+
+let offers=gs('income-offers',[{name:'',price:'',clients:''}]);
+function renderOffers(){
+  const el=document.getElementById('offers-list');el.innerHTML='';
+  offers.forEach((o,i)=>{
+    const row=document.createElement('div');row.className='offer-row';
+    row.innerHTML=`<input type="text" style="font-size:12px;padding:5px 8px" placeholder="Offer name" value="${o.name||''}" oninput="offers[${i}].name=this.value">
+      <input type="number" style="font-size:12px;padding:5px 8px;text-align:center" placeholder="0" value="${o.price||''}" oninput="offers[${i}].price=this.value;updateOffersTotal()">
+      <input type="number" style="font-size:12px;padding:5px 8px;text-align:center" placeholder="0" value="${o.clients||''}" oninput="offers[${i}].clients=this.value;updateOffersTotal()">
+      <button class="del-btn" onclick="removeOffer(${i})">✕</button>`;
+    el.appendChild(row);
+  });
+  updateOffersTotal();
+}
+function addOffer(){offers.push({name:'',price:'',clients:''});renderOffers();}
+function removeOffer(i){offers.splice(i,1);renderOffers();}
+function updateOffersTotal(){
+  const total=offers.reduce((a,o)=>a+(parseFloat(o.price)||0)*(parseFloat(o.clients)||0),0);
+  document.getElementById('offers-total').textContent=fmt(total);
+}
+function updateIncome(){
+  const goal=parseFloat(document.getElementById('inc-goal').value)||0;
+  const actual=parseFloat(document.getElementById('inc-actual').value)||0;
+  const pct=goal?Math.min(Math.round(actual/goal*100),100):0;
+  const remaining=Math.max(goal-actual,0);
+  document.getElementById('inc-pct').textContent=pct+'%';
+  document.getElementById('inc-bar').style.width=pct+'%';
+  document.getElementById('m-goal').textContent=fmt(goal);
+  document.getElementById('m-earned').textContent=fmt(actual);
+  document.getElementById('m-remaining').textContent=fmt(remaining);
+  document.getElementById('m-sub').textContent=remaining===0?'Goal reached!':'to go';
+  updateOffersTotal();
+}
+function saveIncome(){
+  ss('income-data',{goal:document.getElementById('inc-goal').value,actual:document.getElementById('inc-actual').value,notes:document.getElementById('inc-notes').value});
+  ss('income-offers',offers);flash('inc-flash');
+}
+
+let currentMonthKey=gs('current-challenge-month',now.getFullYear()+'-'+(now.getMonth()+1));
+function populateMonthSelect(){
+  const sel=document.getElementById('challenge-month');
+  const months=gs('challenge-months',[currentMonthKey]);
+  if(!months.includes(currentMonthKey)){months.push(currentMonthKey);ss('challenge-months',months);}
+  sel.innerHTML='';
+  months.slice().reverse().forEach(m=>{
+    const[y,mo]=m.split('-');
+    const opt=document.createElement('option');
+    opt.value=m;opt.textContent=MONTHS[parseInt(mo)-1]+' '+y;
+    if(m===currentMonthKey)opt.selected=true;
+    sel.appendChild(opt);
+  });
+}
+function newMonth(){
+  const y=prompt('Year:',now.getFullYear());if(!y)return;
+  const mo=prompt('Month (1–12):',now.getMonth()+1);if(!mo)return;
+  const key=y+'-'+mo;
+  const months=gs('challenge-months',[]);
+  if(!months.includes(key)){months.push(key);ss('challenge-months',months);}
+  currentMonthKey=key;ss('current-challenge-month',key);
+  populateMonthSelect();loadChallenge();
+}
+function loadChallenge(){
+  const sel=document.getElementById('challenge-month');
+  if(sel.value)currentMonthKey=sel.value;
+  const setup=gs('ch-setup-'+currentMonthKey,{name:'',goal:''});
+  document.getElementById('ch-name').value=setup.name||'';
+  document.getElementById('ch-goal').value=setup.goal||'';
+  buildDayGrid();updateChallengeSummary();
+}
+function saveSetup(){
+  ss('ch-setup-'+currentMonthKey,{name:document.getElementById('ch-name').value,goal:document.getElementById('ch-goal').value});
+  flash('ch-setup-flash');
+}
+function daysInMonth(y,m){return new Date(y,m,0).getDate();}
+function firstDayOfWeek(y,m){let d=new Date(y,m-1,1).getDay();return d===0?6:d-1;}
+function buildDayGrid(){
+  const[y,mo]=currentMonthKey.split('-').map(Number);
+  const days=daysInMonth(y,mo);const firstDay=firstDayOfWeek(y,mo);
+  const dayData=gs('ch-days-'+currentMonthKey,{});
+  const todayStr=now.getFullYear()+'-'+(now.getMonth()+1)+'-'+now.getDate();
+  const grid=document.getElementById('day-grid');grid.innerHTML='';
+  for(let i=0;i<firstDay;i++){grid.appendChild(document.createElement('div'));}
+  for(let d=1;d<=days;d++){
+    const key=y+'-'+mo+'-'+d;
+    const data=dayData[d]||{leads:'',revenue:'',done:false};
+    const isToday=key===todayStr;
+    const cell=document.createElement('div');
+    cell.className='day-cell'+(data.done?' logged':'')+(isToday?' today-cell':'');
+    cell.innerHTML=`<div class="dnum${isToday?' tn':''}">${d}</div>
+      <input class="dmi" placeholder="Leads" type="number" value="${data.leads||''}" oninput="updateDay(${d},'leads',this.value)" title="New leads / sign-ups">
+      <input class="dmi" placeholder="$Rev" type="number" value="${data.revenue||''}" oninput="updateDay(${d},'revenue',this.value)" title="Revenue that day">
+      <div class="ddone"><input type="checkbox" id="done-${d}" ${data.done?'checked':''} onchange="updateDay(${d},'done',this.checked)"><label for="done-${d}">Done</label></div>`;
+    grid.appendChild(cell);
+  }
+}
+function updateDay(d,field,val){
+  const dayData=gs('ch-days-'+currentMonthKey,{});
+  if(!dayData[d])dayData[d]={leads:'',revenue:'',done:false};
+  dayData[d][field]=val;ss('ch-days-'+currentMonthKey,dayData);
+  if(field==='done'){
+    const cells=document.getElementById('day-grid').querySelectorAll('.day-cell');
+    const firstDay=firstDayOfWeek(...currentMonthKey.split('-').map(Number));
+    if(cells[d-1]){cells[d-1].className='day-cell'+(val?' logged':'')+(cells[d-1].classList.contains('today-cell')?' today-cell':'');}
+  }
+  updateChallengeSummary();
+}
+function saveChallenge(){flash('ch-flash');}
+function updateChallengeSummary(){
+  const[y,mo]=currentMonthKey.split('-').map(Number);
+  const days=daysInMonth(y,mo);
+  const dayData=gs('ch-days-'+currentMonthKey,{});
+  const done=Object.values(dayData).filter(d=>d.done).length;
+  const totalLeads=Object.values(dayData).reduce((a,d)=>a+(parseFloat(d.leads)||0),0);
+  const totalRev=Object.values(dayData).reduce((a,d)=>a+(parseFloat(d.revenue)||0),0);
+  document.getElementById('ch-summary').textContent=done+' of '+days+' days completed ('+Math.round(done/days*100)+'%) · '+Math.round(totalLeads)+' total leads · '+fmt(totalRev)+' revenue logged';
+}
+function archiveCurrentMonth(){
+  const[y,mo]=currentMonthKey.split('-').map(Number);
+  const days=daysInMonth(y,mo);
+  const dayData=gs('ch-days-'+currentMonthKey,{});
+  const incData=gs('income-data',{});
+  const setup=gs('ch-setup-'+currentMonthKey,{});
+  const done=Object.values(dayData).filter(d=>d.done).length;
+  const totalLeads=Object.values(dayData).reduce((a,d)=>a+(parseFloat(d.leads)||0),0);
+  const totalRev=Object.values(dayData).reduce((a,d)=>a+(parseFloat(d.revenue)||0),0);
+  const reflection=prompt('Add a reflection for '+MONTHS[mo-1]+' '+y+' (optional):');
+  const entry={monthKey:currentMonthKey,monthLabel:MONTHS[mo-1]+' '+y,goal:parseFloat(incData.goal)||0,actual:parseFloat(incData.actual)||0,notes:incData.notes||'',challengeName:setup.name||'',challengePct:Math.round(done/days*100),daysDone:done,daysTotal:days,totalLeads:Math.round(totalLeads),totalRev:totalRev,reflection:reflection||''};
+  const history=gs('month-history',[]);
+  const idx=history.findIndex(h=>h.monthKey===currentMonthKey);
+  if(idx>=0)history[idx]=entry;else history.push(entry);
+  ss('month-history',history);
+  alert('Archived! Click the History tab to view it.');
+  renderHistory();
+}
+function renderHistory(){
+  const history=gs('month-history',[]);
+  const list=document.getElementById('history-list');
+  if(!list)return;
+  list.innerHTML='';
+  if(!history.length){list.innerHTML='<p style="font-size:13px;color:var(--tm);text-align:center;padding:2rem 0">No months archived yet. Complete a month and use "Archive this month" to save it here.</p>';return;}
+  history.slice().reverse().forEach((m,i)=>{
+    const pct=m.goal?Math.min(Math.round(m.actual/m.goal*100),100):0;
+    const card=document.createElement('div');card.className='hist-card';
+    card.innerHTML=`<div class="hist-hd" onclick="toggleHist('hb-${i}')">
+      <div><div class="hist-title">${m.monthLabel}</div>
+      <div><span class="pill ${pct>=100?'pg':pct>=70?'pa':'pp'}">${pct}% of income goal</span><span class="pill pp">${m.challengePct||0}% challenge done</span></div></div>
+      <span style="font-size:20px;color:var(--tm)">›</span>
+    </div>
+    <div class="hist-body" id="hb-${i}">
+      <div class="hist-grid">
+        <div class="hm"><div class="hm-label">Income goal</div><div class="hm-val">${fmt(m.goal||0)}</div></div>
+        <div class="hm"><div class="hm-label">Income earned</div><div class="hm-val">${fmt(m.actual||0)}</div></div>
+        <div class="hm"><div class="hm-label">Challenge days</div><div class="hm-val">${m.daysDone||0} / ${m.daysTotal||30}</div></div>
+        <div class="hm"><div class="hm-label">Total leads</div><div class="hm-val">${m.totalLeads||0}</div></div>
+        <div class="hm"><div class="hm-label">Revenue logged</div><div class="hm-val">${fmt(m.totalRev||0)}</div></div>
+        <div class="hm"><div class="hm-label">Challenge</div><div class="hm-val" style="font-size:13px">${m.challengeName||'—'}</div></div>
+      </div>
+      ${m.notes?`<div class="hnote">"${m.notes}"</div>`:''}
+      ${m.reflection?`<div class="hnote"><strong>Reflection:</strong> ${m.reflection}</div>`:''}
+    </div>`;
+    list.appendChild(card);
+  });
+}
+function toggleHist(id){document.getElementById(id).classList.toggle('open');}
+
+function loadAll(){
+  const ps=gs('platform-strats',{});
+  ['li-strat','yt-strat','sk-strat','add1','add2'].forEach(f=>{const el=document.getElementById(f);if(el&&ps[f])el.value=ps[f];});
+  const sd=gs('strategy-data',{});
+  ['s-li-goal','s-li-content','s-li-cadence','s-li-attract','s-li-dm','s-li-bridge','s-yt-goal','s-yt-pillars','s-yt-cadence','s-yt-seo','s-yt-bridge','s-sk-goal','s-sk-join','s-sk-nurture','s-sk-trust','s-sk-convert','s-free-offer','s-free-who','s-free-intro','s-free-after'].forEach(f=>{const el=document.getElementById(f);if(el&&sd[f])el.value=sd[f];});
+  const kt=gs('kpi-targets',{});
+  ['pp','sp','yv','ys','co','nf','sm','skp','dm','lv','fo','wt','cl','rv'].forEach(k=>{const el=document.getElementById('t-'+k);if(el&&kt[k])el.value=kt[k];});
+  const kl=gs('kpi-log',{});
+  ['pp','sp','yv','ys','co','nf','sm','skp','dm','fo','wt','cl'].forEach(k=>{const el=document.getElementById('la-'+k);if(el&&kl[k])el.value=kl[k];});
+  const id=gs('income-data',{});
+  if(id.goal)document.getElementById('inc-goal').value=id.goal;
+  if(id.actual)document.getElementById('inc-actual').value=id.actual;
+  if(id.notes)document.getElementById('inc-notes').value=id.notes;
+  offers=gs('income-offers',[{name:'',price:'',clients:''}]);
+  renderOffers();updateIncome();
+}
+
+function buildExport(){
+  const roles=gs('platform-roles',{});const ps=gs('platform-strats',{});const sd=gs('strategy-data',{});const kt=gs('kpi-targets',{});const kl=gs('kpi-log',{});
+  const inc=id=>document.getElementById(id)&&document.getElementById(id).checked;
+  const f=(label,val)=>val?label+': '+val+'\n':'';
+  const sep='='.repeat(48)+'\n';
+  let out='ATTRACT · CONNECT · CONVERT — CLIENT PLAN\nExported: '+new Date().toLocaleDateString()+'\n'+sep;
+  if(inc('inc-ov')){out+='\nOVERVIEW\n'+sep+'Your method: Attraction does the heavy lifting. DMs build relationships — never lead with selling.\nEarn trust first. Offers only surface naturally. No cold pitching, ever.\n';}
+  if(inc('inc-pl')){out+='\nPLATFORMS\n'+sep+'LinkedIn: '+(roles.li||'Not set')+'\nYouTube: '+(roles.yt||'Not set')+'\nSkool: Community · Connect and nurture\n';if(ps['li-strat'])out+='\nLinkedIn notes:\n'+ps['li-strat']+'\n';if(ps['yt-strat'])out+='\nYouTube notes:\n'+ps['yt-strat']+'\n';if(ps['sk-strat'])out+='\nSkool notes:\n'+ps['sk-strat']+'\n';}
+  if(inc('inc-st')){out+='\nSTRATEGY\n'+sep+'--- LinkedIn ---\n'+f('Goal',sd['s-li-goal'])+f('Content types',sd['s-li-content'])+f('Posting cadence',sd['s-li-cadence'])+f('DM approach',sd['s-li-dm'])+f('Bridge to Skool',sd['s-li-bridge'])+'\n--- YouTube ---\n'+f('Goal',sd['s-yt-goal'])+f('Content pillars',sd['s-yt-pillars'])+f('Posting cadence',sd['s-yt-cadence'])+f('Bridge to Skool',sd['s-yt-bridge'])+'\n--- Skool ---\n'+f('Goal',sd['s-sk-goal'])+f('Join incentive',sd['s-sk-join'])+f('Nurture rhythm',sd['s-sk-nurture'])+f('Natural conversion',sd['s-sk-convert'])+'\n--- Free offer ---\n'+f('The offer',sd['s-free-offer'])+f('Who it\'s for',sd['s-free-who']);}
+  if(inc('inc-tg')){out+='\nWEEKLY TARGETS\n'+sep+f('Primary posts/week',kt['pp'])+f('YouTube videos/week',kt['yv'])+f('New Skool members/week',kt['sm'])+f('New clients/month',kt['cl'])+f('Revenue goal/month',kt['rv']?'$'+kt['rv']:'');}
+  if(inc('inc-dl')){out+='\nDAILY TRACKER\n'+sep;DT.forEach(s=>{out+='\n'+s.title+':\n';s.items.forEach(i=>out+='  [ ] '+i.l+'\n');});}
+  out+='\n'+sep+'End of export\n';
+  return out;
+}
+function generatePreview(){document.getElementById('preview-box').textContent=buildExport();}
+function copyAll(){navigator.clipboard.writeText(buildExport()).then(()=>flash('copy-flash')).catch(()=>{document.getElementById('preview-box').textContent=buildExport();});}
+function downloadTxt(){const blob=new Blob([buildExport()],{type:'text/plain'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='attract-connect-convert-plan.txt';a.click();URL.revokeObjectURL(url);}
+
+// Init
+updateRoleUI();buildDaily();loadAll();populateMonthSelect();loadChallenge();
+</script>
+</body>
+</html>
