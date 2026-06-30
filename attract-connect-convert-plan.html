@@ -502,14 +502,21 @@ function updateRoleUI(){
   if(ytSR)ytSR.textContent=roles.yt?(roles.yt==='primary'?'Primary':'Secondary'):'';
 }
 
+function getDTItems(secId,defaultItems){
+  const saved=gs('dt-items-'+secId,null);
+  return saved||defaultItems.map(it=>({id:it.id,l:it.l}));
+}
+function saveDTItems(secId,items){ss('dt-items-'+secId,items);}
+
 function buildDaily(){
   const container=document.getElementById('daily-list');
   container.innerHTML='';
   DT.forEach(sec=>{
+    const items=getDTItems(sec.id,sec.items);
     const checked=gs('daily-'+sec.id,{});
     const note=gs('note-'+sec.id,'');
-    const total=sec.items.length;
-    const done=Object.values(checked).filter(Boolean).length;
+    const total=items.length;
+    const done=items.filter(it=>checked[it.id]).length;
     const pct=total?Math.round(done/total*100):0;
     const div=document.createElement('div');
     div.className='day-section';
@@ -518,25 +525,30 @@ function buildDaily(){
       <div class="prog-bar"><div class="prog-fill" id="pf-${sec.id}" style="width:${pct}%"></div></div></div>
       <div style="display:flex;align-items:center;gap:8px">
         <span style="font-size:12px;color:var(--tm)" id="cnt-${sec.id}">${done}/${total}</span>
-        <span style="font-size:18px;color:var(--tm)" id="chev-${sec.id}">›</span>
+        <span style="font-size:18px;color:var(--tm)">›</span>
       </div></div>
       <div class="day-body" id="db-${sec.id}">
-        <div class="checklist">
-          ${sec.items.map(it=>`<div class="check-item">
-            <input type="checkbox" id="chk-${it.id}" ${checked[it.id]?'checked':''} onchange="toggleCheck('${sec.id}','${it.id}',this.checked)">
-            <label class="clabel${checked[it.id]?' done':''}" for="chk-${it.id}" id="lbl-${it.id}">${it.l}</label>
-          </div>`).join('')}
+        <div class="checklist" id="cl-${sec.id}">
+          ${items.map(it=>buildItemHTML(sec.id,it,checked[it.id])).join('')}
         </div>
+        <button class="add-btn" style="margin-top:10px" onclick="addDTItem('${sec.id}')">+ Add task</button>
         ${sec.note?`<div class="note-field"><textarea placeholder="Notes..." id="nt-${sec.id}" onchange="ss('note-${sec.id}',this.value)">${note}</textarea></div>`:''}
       </div>`;
     container.appendChild(div);
   });
 }
 
+function buildItemHTML(secId,it,isDone){
+  return`<div class="check-item" id="ci-${it.id}">
+    <input type="checkbox" id="chk-${it.id}" ${isDone?'checked':''} onchange="toggleCheck('${secId}','${it.id}',this.checked)">
+    <span class="clabel${isDone?' done':''}" id="lbl-${it.id}" onclick="editDTItem(event,'${secId}','${it.id}')" title="Click to edit">${it.l}</span>
+    <button onclick="deleteDTItem('${secId}','${it.id}')" style="margin-left:6px;background:none;border:none;cursor:pointer;color:var(--tm);font-size:13px;padding:0;line-height:1;flex-shrink:0" title="Remove">✕</button>
+  </div>`;
+}
+
 function toggleDay(id,hd){
   const b=document.getElementById(id);
   const open=b.classList.toggle('open');
-  hd.classList.toggle('open',open);
 }
 
 function toggleCheck(secId,itemId,val){
@@ -544,13 +556,72 @@ function toggleCheck(secId,itemId,val){
   state[itemId]=val;ss('daily-'+secId,state);
   const lbl=document.getElementById('lbl-'+itemId);
   if(lbl)lbl.className='clabel'+(val?' done':'');
-  const sec=DT.find(s=>s.id===secId);
-  const total=sec.items.length;
-  const done=Object.values(state).filter(Boolean).length;
+  updateDTCount(secId);
+}
+
+function updateDTCount(secId){
+  const items=getDTItems(secId,DT.find(s=>s.id===secId).items);
+  const checked=gs('daily-'+secId,{});
+  const total=items.length;
+  const done=items.filter(it=>checked[it.id]).length;
   const bar=document.getElementById('pf-'+secId);
-  if(bar)bar.style.width=Math.round(done/total*100)+'%';
+  if(bar)bar.style.width=(total?Math.round(done/total*100):0)+'%';
   const cnt=document.getElementById('cnt-'+secId);
   if(cnt)cnt.textContent=done+'/'+total;
+}
+
+function editDTItem(e,secId,itemId){
+  const lbl=document.getElementById('lbl-'+itemId);
+  if(!lbl||lbl.querySelector('input'))return;
+  const current=lbl.textContent;
+  const inp=document.createElement('input');
+  inp.value=current;
+  inp.style.cssText='flex:1;font-size:13px;padding:2px 6px;border:1px solid var(--attract);border-radius:5px;background:var(--s2);color:var(--tp);font-family:inherit';
+  lbl.textContent='';
+  lbl.appendChild(inp);
+  inp.focus();inp.select();
+  const save=()=>{
+    const val=inp.value.trim()||current;
+    const items=getDTItems(secId,DT.find(s=>s.id===secId).items);
+    const idx=items.findIndex(it=>it.id===itemId);
+    if(idx>=0){items[idx].l=val;saveDTItems(secId,items);}
+    const checked=gs('daily-'+secId,{});
+    lbl.textContent='';
+    lbl.className='clabel'+(checked[itemId]?' done':'');
+    lbl.textContent=val;
+  };
+  inp.addEventListener('blur',save);
+  inp.addEventListener('keydown',ev=>{if(ev.key==='Enter'){ev.preventDefault();inp.blur();}if(ev.key==='Escape'){inp.value=current;inp.blur();}});
+}
+
+function addDTItem(secId){
+  const items=getDTItems(secId,DT.find(s=>s.id===secId).items);
+  const newId=secId+'-u'+Date.now();
+  const newItem={id:newId,l:'New task'};
+  items.push(newItem);
+  saveDTItems(secId,items);
+  const cl=document.getElementById('cl-'+secId);
+  const checked=gs('daily-'+secId,{});
+  const tmp=document.createElement('div');
+  tmp.innerHTML=buildItemHTML(secId,newItem,false);
+  cl.appendChild(tmp.firstElementChild);
+  updateDTCount(secId);
+  setTimeout(()=>{
+    const lbl=document.getElementById('lbl-'+newId);
+    if(lbl)lbl.click();
+  },50);
+}
+
+function deleteDTItem(secId,itemId){
+  const items=getDTItems(secId,DT.find(s=>s.id===secId).items);
+  const idx=items.findIndex(it=>it.id===itemId);
+  if(idx>=0)items.splice(idx,1);
+  saveDTItems(secId,items);
+  const state=gs('daily-'+secId,{});
+  delete state[itemId];ss('daily-'+secId,state);
+  const el=document.getElementById('ci-'+itemId);
+  if(el)el.remove();
+  updateDTCount(secId);
 }
 
 function resetDaily(){
