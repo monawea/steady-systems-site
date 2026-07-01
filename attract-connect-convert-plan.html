@@ -298,9 +298,9 @@ hr{border:none;border-top:1px solid var(--bd);margin:12px 0}
     <div class="notice">Set these once. These are your goals — use the weekly log to record what actually happened.</div>
     <div class="sh">Attract</div>
     <div class="kgrid">
-      <div class="fi-group"><label class="fi-label">Primary platform posts/week</label><input type="number" id="t-pp" placeholder="5"></div>
-      <div class="fi-group"><label class="fi-label">Secondary platform posts/week</label><input type="number" id="t-sp" placeholder="2"></div>
-      <div class="fi-group"><label class="fi-label">YouTube videos/week</label><input type="number" id="t-yv" placeholder="1"></div>
+      <div class="fi-group"><label class="fi-label" id="lbl-t-pp">Primary platform posts/week</label><input type="number" id="t-pp" placeholder="5"></div>
+      <div class="fi-group"><label class="fi-label" id="lbl-t-sp">Secondary platform posts/week</label><input type="number" id="t-sp" placeholder="2"></div>
+      <div class="fi-group"><label class="fi-label">YouTube long-form videos/week</label><input type="number" id="t-yv" placeholder="1"></div>
       <div class="fi-group"><label class="fi-label">YouTube Shorts/week</label><input type="number" id="t-ys" placeholder="2"></div>
       <div class="fi-group"><label class="fi-label">Comments on others/week</label><input type="number" id="t-co" placeholder="10"></div>
       <div class="fi-group"><label class="fi-label">New followers/connections/week</label><input type="number" id="t-nf" placeholder="50"></div>
@@ -326,9 +326,9 @@ hr{border:none;border-top:1px solid var(--bd);margin:12px 0}
       <div class="phase-hd" style="background:var(--attract-bg)"><div class="pdot" style="background:var(--attract)"></div><div style="font-size:13px;font-weight:600;color:var(--attract-dark)">Attract</div></div>
       <div class="phase-body">
         <div class="log-hdr"><span>Metric</span><span>Target</span><span>Actual</span></div>
-        <div class="log-row"><div class="loglabel">Primary posts</div><div class="logtgt" id="lt-pp">—</div><div class="logact"><input type="number" id="la-pp" placeholder="0"></div></div>
-        <div class="log-row"><div class="loglabel">Secondary posts</div><div class="logtgt" id="lt-sp">—</div><div class="logact"><input type="number" id="la-sp" placeholder="0"></div></div>
-        <div class="log-row"><div class="loglabel">YouTube videos</div><div class="logtgt" id="lt-yv">—</div><div class="logact"><input type="number" id="la-yv" placeholder="0"></div></div>
+        <div class="log-row"><div class="loglabel" id="lbl-la-pp">Primary posts</div><div class="logtgt" id="lt-pp">—</div><div class="logact"><input type="number" id="la-pp" placeholder="0"></div></div>
+        <div class="log-row"><div class="loglabel" id="lbl-la-sp">Secondary posts</div><div class="logtgt" id="lt-sp">—</div><div class="logact"><input type="number" id="la-sp" placeholder="0"></div></div>
+        <div class="log-row"><div class="loglabel">YouTube long-form videos</div><div class="logtgt" id="lt-yv">—</div><div class="logact"><input type="number" id="la-yv" placeholder="0"></div></div>
         <div class="log-row"><div class="loglabel">YouTube Shorts</div><div class="logtgt" id="lt-ys">—</div><div class="logact"><input type="number" id="la-ys" placeholder="0"></div></div>
         <div class="log-row"><div class="loglabel">Comments on others</div><div class="logtgt" id="lt-co">—</div><div class="logact"><input type="number" id="la-co" placeholder="0"></div></div>
         <div class="log-row"><div class="loglabel">New followers/connections</div><div class="logtgt" id="lt-nf">—</div><div class="logact"><input type="number" id="la-nf" placeholder="0"></div></div>
@@ -506,6 +506,11 @@ function updateRoleUI(){
   const ytSR=document.getElementById('yt-sr');
   if(liSR)liSR.textContent=roles.li?(roles.li==='primary'?'Primary':'Secondary'):'';
   if(ytSR)ytSR.textContent=roles.yt?(roles.yt==='primary'?'Primary':'Secondary'):'';
+  // Update KPI labels to show actual platform names
+  const priName=roles.li==='primary'?'LinkedIn':roles.yt==='primary'?'YouTube':'Primary platform';
+  const secName=roles.li==='secondary'?'LinkedIn':roles.yt==='secondary'?'YouTube':'Secondary platform';
+  ['lbl-t-pp','lbl-la-pp'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=priName+' posts/week';});
+  ['lbl-t-sp','lbl-la-sp'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=secName+' posts/week';});
 }
 
 function getDTItems(secId,defaultItems){
